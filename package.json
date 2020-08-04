@@ -1,6 +1,6 @@
 {
 	"name": "@ffz/link-service",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"description": "A service that visits links and returns well structured, consumable metadata for clients to use for building rich embeds and tool-tips.",
 	"author": "SirStendec <sir@stendec.me>",
 	"license": "MIT",
@@ -56,6 +56,7 @@
 		"node-fetch": "^2.6.0",
 		"require-all": "^3.0.0",
 		"simple-oauth2": "^2.5.2",
+		"source-map-support": "^0.5.19",
 		"tldjs": "^2.3.1",
 		"twemoji": "^13.0.1"
 	},
