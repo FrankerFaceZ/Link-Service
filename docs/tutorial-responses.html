@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>Tutorial: responses - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <h2><a href="index.html">Home</a></h2><h2><a href="https://github.com/FrankerFaceZ/link-service" >GitHub</a></h2><h3>Classes</h3><ul><li><a href="DocumentBuilder.html">DocumentBuilder</a><ul class='methods'><li data-type='method'><a href="DocumentBuilder.html#add">add</a></li><li data-type='method'><a href="DocumentBuilder.html#addConditional">addConditional</a></li><li data-type='method'><a href="DocumentBuilder.html#addField">addField</a></li><li data-type='method'><a href="DocumentBuilder.html#addFields">addFields</a></li><li data-type='method'><a href="DocumentBuilder.html#addHeader">addHeader</a></li><li data-type='method'><a href="DocumentBuilder.html#build">build</a></li><li data-type='method'><a href="DocumentBuilder.html#content">content</a></li><li data-type='method'><a href="DocumentBuilder.html#done">done</a></li><li data-type='method'><a href="DocumentBuilder.html#end">end</a></li><li data-type='method'><a href="DocumentBuilder.html#setCompactHeader">setCompactHeader</a></li><li data-type='method'><a href="DocumentBuilder.html#setExtra">setExtra</a></li><li data-type='method'><a href="DocumentBuilder.html#setFooter">setFooter</a></li><li data-type='method'><a href="DocumentBuilder.html#setHeader">setHeader</a></li><li data-type='method'><a href="DocumentBuilder.html#setLogo">setLogo</a></li><li data-type='method'><a href="DocumentBuilder.html#setSubtitle">setSubtitle</a></li><li data-type='method'><a href="DocumentBuilder.html#setTitle">setTitle</a></li></ul></li><li><a href="LinkService.html">LinkService</a><ul class='methods'><li data-type='method'><a href="LinkService.html#normalizeURL">normalizeURL</a></li><li data-type='method'><a href="LinkService.html#pickResolver">pickResolver</a></li><li data-type='method'><a href="LinkService.html#proxyImage">proxyImage</a></li><li data-type='method'><a href="LinkService.html#registerDefaultResolvers">registerDefaultResolvers</a></li><li data-type='method'><a href="LinkService.html#registerResolver">registerResolver</a></li><li data-type='method'><a href="LinkService.html#resolve">resolve</a></li></ul></li><li><a href="Redirect.html">Redirect</a></li><li><a href="Resolver.html">Resolver</a><ul class='methods'><li data-type='method'><a href="Resolver.html#builder">builder</a></li><li data-type='method'><a href="Resolver.html#handles">handles</a></li><li data-type='method'><a href="Resolver.html#processBody">processBody</a></li><li data-type='method'><a href="Resolver.html#processHeaders">processHeaders</a></li><li data-type='method'><a href="Resolver.html#proxyImage">proxyImage</a></li><li data-type='method'><a href="Resolver.html#transformURL">transformURL</a></li></ul></li><li><a href="UseMetadata.html">UseMetadata</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-responses.html">responses</a></li></ul><h3>Global</h3><ul><li><a href="global.html#BackgroundAwareImage">BackgroundAwareImage</a></li><li><a href="global.html#boxToken">boxToken</a></li><li><a href="global.html#conditionalToken">conditionalToken</a></li><li><a href="global.html#fetch">fetch</a></li><li><a href="global.html#Field">Field</a></li><li><a href="global.html#flexToken">flexToken</a></li><li><a href="global.html#formatSize">formatSize</a></li><li><a href="global.html#formatToken">formatToken</a></li><li><a href="global.html#galleryToken">galleryToken</a></li><li><a href="global.html#i18nToken">i18nToken</a></li><li><a href="global.html#iconToken">iconToken</a></li><li><a href="global.html#imageToken">imageToken</a></li><li><a href="global.html#linkToken">linkToken</a></li><li><a href="global.html#normalizeURL">normalizeURL</a></li><li><a href="global.html#overlayToken">overlayToken</a></li><li><a href="global.html#RequestContext">RequestContext</a></li><li><a href="global.html#RichToken">RichToken</a></li><li><a href="global.html#styleToken">styleToken</a></li><li><a href="global.html#truncate">truncate</a></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">Tutorial: responses</h1>
+    
+
+    <section>
+
+<header>
+    
+
+    <h2>responses</h2>
+</header>
+
+<article>
+    <h1>Response Format</h1>
+<p>The link service should return the following format.</p>
+<pre class="prettyprint source lang-javascript"><code>{
+	/*************************\
+	 * Resolver Specific Data *
+	\*************************/
+
+	// The Tooltip Version. Prevents earlier clients from trying to render
+	// new content with potentially problematic results.
+	// Type: Number. Valid: 5
+	&quot;v&quot;: 5,
+
+	// An accent color, optionally used when presenting content.
+	// Type: String. Valid: Any CSS Color
+	&quot;accent&quot;: &quot;#F00&quot;,
+
+	// A short embed, intended for use in space limited areas such as Twitch
+	// chat. The official client uses this for embeds within chat. Typically
+	// this should include just a header with a preview image, a title, and
+	// one or two lines of description. Embeds are comprised of one or more
+	// rich tokens.
+	// Type: Rich Token Document.
+	&quot;short&quot;: TOKEN,
+
+	// A longer embed, for when more space is available. The official client
+	// uses this for rendering tooltips. This can include more text, multiple
+	// images, and possibly even something like a video. Embeds are comprised
+	// of one or more rich tokens.
+	// Optional. Type: Rich Token Document.
+	&quot;full&quot;: TOKEN,
+
+
+	/**************\
+	 * Global Data *
+	\**************/
+
+	// This data is handled by the core link service and not by any specific
+	// resolver. Resolvers should not return this data.
+
+
+	// URL Safety
+	// Currently, our only data source for URL safety is Google SafeBrowsing.
+	// We would like to expand this service in the future, possibly with the
+	// help of a Twitch-centric project.
+
+	// Whether or not any of the URLs in the entire redirect chain have been
+	// flagged for safety concerns. If this is true, one of the present URLs
+	// has been flagged as unsafe. If this is false, none of the URLs are known
+	// to be unsafe, though they could still be unsafe.
+	// Type: Boolean.
+	&quot;unsafe&quot;: true,
+
+	// The full redirect chain, with details on each specific URL.
+	&quot;urls&quot;: [
+		{&quot;url&quot;: &quot;http://sketchy-redirect.example&quot;, &quot;unsafe&quot;: true, &quot;flags&quot;: [&quot;MALWARE&quot;]},
+		{&quot;url&quot;: &quot;http://example.org&quot;, &quot;unsafe&quot;: false, &quot;flags&quot;: []},
+		{&quot;url&quot;: &quot;https://example.org&quot;, &quot;unsafe&quot;: false, &quot;flags&quot;: []},
+		{&quot;url&quot;: &quot;https://www.example.org&quot;, &quot;unsafe&quot;: false, &quot;flags&quot;: []}
+	]
+}
+</code></pre>
+<h2>Rich Token Documents</h2>
+<p>Rich Token Documents are a standard format for safely expressing rich content.
+While we could emit HTML, clients would need to do extra processing to ensure
+the safety of the HTML and there would still be issues with certain missing
+functionality, such as integration with client localization.</p>
+<p>The root of a Rich Token Document is a <code>TOKEN</code>, and <code>TOKEN</code>s are a recursive
+structure comprised of lists, <code>RICH_TOKEN</code>s, primitives, and <code>null</code>.</p>
+<pre class="prettyprint source lang-javascript"><code>TOKEN = [LIST, OF, TOKEN, ...] || RICH_TOKEN || PRIMITIVE || null;
+PRIMITIVE = String || Number || Boolean;
+
+RICH_TOKEN = {type: String, ...ARGS};
+</code></pre>
+<p>Primitives are cast to strings for inclusion in the output. If you require
+special formatting of a number of string, you should use a rich token.
+<code>null</code> produces no output from the client.</p>
+<h1>Rich Token Types</h1>
+<h2>Box</h2>
+<pre class="prettyprint source lang-javascript"><code>BOX_TOKEN = {
+	type: &quot;box&quot;,
+	wrap: WRAP?,
+	lines: Number?,
+	pd: SPACING?,
+	pd-t: SPACING?, pd-l: SPACING?, pd-r: SPACING?, pd-b: SPACING?,
+	mg: SPACING?,
+	mg-t: SPACING?, mg-l: SPACING?, mg-r: SPACING?, mg-b: SPACING?,
+
+	content: TOKEN
+}
+
+SPACING = &quot;small&quot; || &quot;normal&quot; || &quot;large&quot; || &quot;huge&quot; || CSSNumber;
+WRAP = &quot;wrap&quot; || &quot;nowrap&quot; || &quot;wrap-reverse&quot;;
+</code></pre>
+<p>Box tokens are used to adding space around content. The <code>wrap</code> parameter
+is for overriding how white space and line returns are handled within the
+box's contents, acting as the CSS <code>white-space</code> attribute. If <code>lines</code> is
+present, the content will be limited to a height of that many lines.</p>
+<p>The <code>pd</code> and <code>mg</code> values are for adding padding and margins to the box,
+respectively. The sub-values are for the top, left, right, and bottom
+respectively.</p>
+<h2>Conditional</h2>
+<pre class="prettyprint source lang-javascript"><code>CONDITIONAL_TOKEN = {
+	type: &quot;cond&quot;,
+	media: Boolean?,
+	nsfw: Boolean?,
+	content: TOKEN,
+	alternative: TOKEN?
+};
+</code></pre>
+<p>Conditional tokens allow a client to selectively hide content that the user has
+indicated they do not wish to see. Specifically, the FrankerFaceZ client allows
+users to indicate that they do not wish to see media in tool-tips, and separately
+that they do not wish to see NSFW media in tool-tips.</p>
+<p>If <code>media</code> is present, the block will be included if the value of <code>media</code> matches
+the user's preference for including media. If <code>nsfw</code> is true, the block will be
+included if the user has indicated a preference for seeing NSFW content.</p>
+<p>If <code>alternative</code> is supplied and the content is not included, the alternative
+content will be included instead. This can be used to, for example, indicate that
+the content includes significant use of media.</p>
+<h2>Fieldset</h2>
+<pre class="prettyprint source lang-javascript"><code>FIELDSET_TOKEN = {
+	type: 'fieldset',
+	fields: [LIST, OF, FIELD...]
+};
+
+FIELD = {
+	name: TOKEN,
+	value: TOKEN,
+	inline: Boolean?
+}
+</code></pre>
+<p>Fieldsets make it quick to embed several distinct points quickly, while still
+supporting rich content within them. The idea was taken from Discord's own embed
+system. Example:</p>
+<pre class="prettyprint source lang-json"><code>{
+	&quot;type&quot;: &quot;fieldset&quot;,
+	&quot;fields&quot;: [
+		{&quot;name&quot;: &quot;HP&quot;, &quot;value&quot;: 96, &quot;inline&quot;: true},
+		{&quot;name&quot;: &quot;MP&quot;, &quot;value&quot;: 12, &quot;inline&quot;: true},
+		{&quot;name&quot;: &quot;Status&quot;, &quot;value&quot;: &quot;Poisoned&quot;}
+	]
+}
+</code></pre>
+<h2>Flex</h2>
+<pre class="prettyprint source lang-javascript"><code>FLEX_TOKEN = {
+	type: &quot;flex&quot;,
+	direction: DIRECTION?, inline: Boolean?, overflow: OVERFLOW?,
+	'align-content': ALIGN?, 'align-items': ALIGN?, 'align-self': ALIGN?,
+	'justify-content': ALIGN?,
+	pd: SPACING?,
+	pd-t: SPACING?, pd-l: SPACING?, pd-r: SPACING?, pd-b: SPACING?,
+	mg: SPACING?,
+	mg-t: SPACING?, mg-l: SPACING?, mg-r: SPACING?, mg-b: SPACING?,
+	content: TOKEN
+};
+
+ALIGN = &quot;start&quot; || &quot;end&quot; || &quot;center&quot; || &quot;between&quot; || &quot;around&quot;;
+DIRECTION = &quot;column&quot; || &quot;row&quot; || &quot;column-reverse&quot; || &quot;row-reverse&quot;;
+OVERFLOW = &quot;hidden&quot; || &quot;auto&quot;;
+SPACING = &quot;small&quot; || &quot;normal&quot; || &quot;large&quot; || &quot;huge&quot; || CSSNumber;
+WRAP = &quot;wrap&quot; || &quot;nowrap&quot; || &quot;wrap-reverse&quot;;
+</code></pre>
+<p>Flex tokens are used for layout control, with the assumption that all clients
+will either be able to use flexbox to layout elements or will be able to
+interpret the description and perform their own layout operations. It's pretty
+much just a direct mapping of flex.</p>
+<p>The <code>pd</code> and <code>mg</code> values are for adding padding and margins to the box,
+respectively. The sub-values are for the top, left, right, and bottom
+respectively.</p>
+<h2>Format</h2>
+<pre class="prettyprint source lang-javascript"><code>FORMAT_TOKEN = {
+	type: 'format',
+	format: String,
+	value: Object || String || Boolean || Number || null,
+	options: Object?
+}
+</code></pre>
+<p>Format tokens are used to format a value on the client. This allows tokens
+to be formatted according to the user's language and preferences.</p>
+<p><code>format</code> is the type of formatting to perform. The following choices
+are available:</p>
+<ul>
+<li><code>date</code>: Format the value as a date. (Ex: <code>02/03/2020</code>)</li>
+<li><code>time</code>: Format the value as a time. (Ex: <code>03:12</code>)</li>
+<li><code>datetime</code>: Format the value as a full date and time. (Ex: <code>02/03/2020, 03:12</code>)</li>
+<li><code>relative</code>: Format the value as a time relative to the current time. (Ex: <code>4 hours ago</code>)</li>
+<li><code>duration</code>: Format the value as a duration. Expects value to be in seconds. (Ex: <code>0:12:39</code>)</li>
+<li><code>number</code>: Format the value as a number.</li>
+</ul>
+<p>If <code>options</code> is supplied, it is passed to the formatter as an additional
+argument. The <code>date</code>, <code>time</code>, and <code>datetime</code> formats support custom formats
+for their output.</p>
+<h2>Gallery</h2>
+<pre class="prettyprint source lang-javascript"><code>GALLERY_TOKEN = {
+	type: 'gallery',
+	items: [LIST, OF, MEDIA, ...]
+};
+
+MEDIA = IMAGE_TOKEN || VIDEO_TOKEN;
+</code></pre>
+<p>Gallery tags are used for layout control when embedding one or more images or
+videos, up to a maximum of four. Gallery tags limit the maximum size of the
+embedded images and videos as appropriate and depending on the number it has
+to display.</p>
+<h2>Header</h2>
+<pre class="prettyprint source lang-javascript"><code>HEADER_TOKEN = {
+	type: &quot;header&quot;,
+	title: TOKEN, subtitle: TOKEN?, extra: TOKEN?,
+	height: Number?, compact: Boolean?,
+	image: IMAGE_TOKEN?, image_side: SIDE
+};
+
+SIDE = &quot;left&quot; || &quot;right&quot;;
+</code></pre>
+<p>Header creates a section with an image next to one, two, or three lines of
+formatted text. The image fills the height of the header. If a height is not
+specified, the header will expand to contain its title, subtitle, and extra.
+If height is specified, and the header is taller than its contents, the contents
+will be vertically centered.</p>
+<p>If <code>compact</code> is true, the title, subtitle, and extra will be rendered on one line.</p>
+<h2>Icon</h2>
+<pre class="prettyprint source lang-javascript"><code>ICON_TOKEN = {
+	type: &quot;icon&quot;,
+	name: String
+};
+</code></pre>
+<p>Icon tokens create an in-line icon. The name of the icon should be an existing
+icon supported by the FrankerFaceZ client. You can find a list of the currently
+supported icons here: <a href="https://github.com/FrankerFaceZ/FrankerFaceZ/blob/master/src/utilities/ffz-icons.js">FrankerFaceZ:src/utilities/ffz-icons.js</a></p>
+<h2>Image</h2>
+<pre class="prettyprint source lang-javascript"><code>IMAGE_TOKEN = {
+	type: &quot;image&quot;,
+	url: URL, title: String?,
+	aspect: Number?, width: Number?, height: Number?,
+	sfw: Boolean?, rounding: Number?
+};
+
+URL = String || { dark: String, light: String };
+</code></pre>
+<p>Include an image. You can include either a single URL, or separate URLs with versions
+of the image appropriate for use on light and dark backgrounds. A title, if set, will
+be used as alt text for the image.</p>
+<p>If <code>sfw</code> is present, then the image will only be included in output if either <code>sfw</code> is
+true or the user has elected to view NSFW content. Please note that, generally
+speaking, <em>all</em> content should be marked as NSFW unless it is explicitly known to be
+SFW. When displaying user-generated content from websites, content should be assumed
+to be NSFW unless the platform is well regulated.</p>
+<p><code>rounding</code> is optionally used to apply rounded corners to an image, and should be the
+number of pixels by which you wish to round the corners. Use <code>-1</code> for a circle.</p>
+<h2>I18N</h2>
+<pre class="prettyprint source lang-javascript"><code>I18N_TOKEN = {
+	type: &quot;i18n&quot;,
+	key: String, phrase: String,
+	content: {...[key: TOKEN]}
+};
+</code></pre>
+<p>Internationalization tokens provide for localizable content within rich documents.
+The FrankerFaceZ client sends these through its i18n layer. The key is a namespaced
+string describing the location of the translation within the greater FFZ user interface.
+All keys should be structured as <code>embed.[resolver].[key]</code> where <code>resolver</code> is the
+name of the resolver and <code>key</code> is a relevant description of the string being localized.</p>
+<p>As an example, the Discord resolver uses the string <code>embed.discord.channel</code> for
+translating the phrase <code>Channel: {name}</code>.</p>
+<p>Phrases are written using the <a href="https://format-message.github.io/icu-message-format-for-translators/">ICU MessageFormat</a> with support for all ICU MessageFormat features.</p>
+<p>Content is an object, where the keys are the names of variables for injection into
+the provided phrase where appropriate and the values are tokens.</p>
+<p>Example:</p>
+<pre class="prettyprint source lang-json"><code>{
+	&quot;type&quot;: &quot;i18n&quot;,
+	&quot;key&quot;: &quot;embed.discord.channel&quot;,
+	&quot;phrase&quot;: &quot;Channel: {name}&quot;,
+	&quot;content&quot;: {
+		&quot;name&quot;: {
+			&quot;type&quot;: &quot;style&quot;, &quot;weight&quot;: &quot;semibold&quot;, &quot;content&quot;: &quot;#welcome-and-rules&quot;
+		}
+	}
+}
+</code></pre>
+<h2>Link</h2>
+<pre class="prettyprint source lang-javascript"><code>LINK_TOKEN = {
+	type: &quot;link&quot;,
+	url: String,
+	content: TOKEN,
+	interactive: Boolean?,
+	tooltip: Boolean?,
+	embed: Boolean?,
+	no_color: Boolean?
+};
+</code></pre>
+<p>Link tokens create links to external content. Links should open in new windows.
+If <code>interactive</code> is true, the link should be styled like a button. The name is
+taken from Twitch's <code>tw-interactive</code> classes.</p>
+<p>If <code>tooltip</code> is false, then hovering over the link should not cause the client
+to attempt to render a rich tooltip.</p>
+<p>If <code>embed</code> is true, then the link should be rendered as an embed, as a block
+with a border and spacing to separate it from its parent content. This will
+likely be removed in favor of a mix of box tokens and <code>interactive</code> soon.</p>
+<p>If <code>no_color</code> is true, then the link should inherit its color from its parent
+rather than having a special color due to being a link.</p>
+<h2>Overlay</h2>
+<pre class="prettyprint source lang-javascript"><code>OVERLAY_TOKEN = {
+	type: &quot;overlay&quot;,
+	content: TOKEN,
+	top-left: TOKEN?, top: TOKEN? top-right: TOKEN?,
+	left: TOKEN?, center: TOKEN?, right: TOKEN?,
+	bottom-left: TOKEN?, bottom: TOKEN?, bottom-right: TOKEN?
+};
+</code></pre>
+<p>Overlay tokens are for placing content in alignment above other content.
+Typically, this is used for placing metadata above an image or video.</p>
+<p>Content is the base content, and all other properties are for placing
+content over the base content aligned to a specific side or corner.</p>
+<h2>Style</h2>
+<pre class="prettyprint source lang-javascript"><code>STYLE_TOKEN = {
+	type: &quot;style&quot;,
+	weight: WEIGHT, italic: Boolean, strike: Boolean, underline: Boolean,
+	tabular: Boolean, wrap: WRAP, size: SIZE, color: COLOR, ellipsis: Boolean,
+	pd: SPACING?,
+	pd-t: SPACING?, pd-l: SPACING?, pd-r: SPACING?, pd-b: SPACING?,
+	mg: SPACING?,
+	mg-t: SPACING?, mg-l: SPACING?, mg-r: SPACING?, mg-b: SPACING?,
+	content: TOKEN
+};
+
+WEIGHT = &quot;regular&quot; || &quot;bold&quot; || &quot;semibold&quot; || Number;
+WRAP = &quot;nowrap&quot; || &quot;pre-wrap&quot;;
+COLOR = &quot;base&quot; || &quot;alt&quot; || &quot;alt-2&quot; || &quot;link&quot; || CSSColor;
+SPACING = &quot;small&quot; || &quot;normal&quot; || &quot;large&quot; || &quot;huge&quot; || CSSNumber;
+SIZE = &quot;1&quot; || &quot;2&quot; || &quot;3&quot; || &quot;4&quot; || &quot;5&quot; || &quot;6&quot; || &quot;7&quot; || &quot;8&quot; || CSSNumber || Number;
+</code></pre>
+<p>Style tokens provide a somewhat platform-agnostic way of styling rich documents, as
+opposed to directly specifying elements with specific CSS classes. In addition to,
+they provide a bit of control over white space wrapping within their content and
+they can have spacing added similarly to <code>box</code> and <code>flex</code>.</p>
+<p>The <code>size</code> string values <code>&quot;1&quot;</code> through <code>&quot;8&quot;</code> refer to font sizes that match other
+elements within the client. All other values will be interpreted as CSS measurements.
+If a plain number is sent, it will be interpreted as a pixel count.</p>
+<h2>Tag (Deprecated)</h2>
+<pre class="prettyprint source lang-javascript"><code>TAG_TOKEN = {
+	type: &quot;tag&quot;,
+	tag: String?, class: String?, title: String?, attrs: Object?,
+	content: TOKEN
+};
+</code></pre>
+<p>Face it. Sometimes you just need a bit of HTML. This should be your token of last
+resort, and if you submit a pull request with this content, expect a lengthy back
+and forth while we consider why you wanted to use this specifically and whether or
+not we could improve the spec to eliminate your use case.</p>
+<p>But, this is here for adding HTML elements. <code>tag</code> is the name of the HTML tag, and
+it defaults to <code>span</code> if not specified. <code>tag</code> is limited to a permitted list of safe
+tags, which may differ between clients. The official client permits the following
+tags to be used:</p>
+<blockquote>
+<p><code>a</code>, <code>abbr</code>, <code>article</code>, <code>aside</code>, <code>audio</code>, <code>b</code>, <code>bdi</code>, <code>bdo</code>, <code>blockquote</code>, <code>br</code>,
+<code>caption</code>, <code>code</code>, <code>col</code>, <code>colgroup</code>, <code>data</code>, <code>dd</code>, <code>div</code>, <code>dl</code>, <code>dt</code>, <code>em</code>,
+<code>figcaption</code>, <code>figure</code>, <code>footer</code>, <code>h1</code>, <code>h2</code>, <code>h3</code>, <code>h4</code>, <code>h5</code>, <code>h6</code>, <code>header</code>,
+<code>hr</code>, <code>i</code>, <code>img</code>, <code>li</code>, <code>main</code>, <code>nav</code>, <code>ol</code>, <code>p</code>, <code>picture</code>, <code>pre</code>, <code>s</code>, <code>section</code>,
+<code>source</code>, <code>span</code>, <code>strong</code>, <code>sub</code>, <code>sup</code>, <code>svg</code>, <code>table</code>, <code>tbody</code>, <code>td</code>, <code>tfoot</code>,
+<code>th</code>, <code>thead</code>, <code>time</code>, <code>tr</code>, <code>track</code>, <code>u</code>, <code>ul</code>, <code>video</code>, <code>wbr</code></p>
+</blockquote>
+<p><code>class</code> is a space-separated list of CSS class names to apply to the element.</p>
+<p><code>attrs</code> is an object of attributes to set on the created element. This is limited to
+a permitted list of safe attributes, which differ by tag name. Permitted attributes
+may also differ by client. The official client permits the following tags to be
+used with the respective tags:</p>
+<ul>
+<li>a: <code>href</code>, <code>title</code></li>
+<li>audio: <code>autoplay</code>, <code>controls</code>, <code>loop</code>, <code>muted</code>, <code>preload</code>, <code>src</code></li>
+<li>bdo: <code>dir</code></li>
+<li>col: <code>span</code></li>
+<li>colgroup: <code>span</code></li>
+<li>data: <code>value</code></li>
+<li>img: <code>alt</code>, <code>height</code>, <code>sizes</code>, <code>src</code>, <code>srcset</code>, <code>width</code></li>
+<li>source: <code>src</code>, <code>srcset</code>, <code>sizes</code>, <code>type</code>, <code>media</code></li>
+<li>td: <code>colspan</code>, <code>headers</code>, <code>rowspan</code></li>
+<li>th: <code>abbr</code>, <code>colspan</code>, <code>headers</code>, <code>rowspan</code>, <code>scope</code></li>
+<li>time: <code>datetime</code></li>
+<li>track: <code>default</code>, <code>kind</code>, <code>label</code>, <code>src</code>, <code>srclang</code></li>
+<li>video: <code>autoplay</code>, <code>controls</code>, <code>height</code>, <code>loop</code>, <code>muted</code>, <code>poster</code>, <code>preload</code>, <code>src</code>, <code>width</code></li>
+</ul>
+</article>
+
+</section>
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.5</a> on Tue Aug 04 2020 02:50:22 GMT-0400 (Eastern Daylight Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,9 @@
+node_modules
+.nyc_output
+coverage
+npm-debug.log
+.idea
+dist
+cdn_files
+env.yaml
+server

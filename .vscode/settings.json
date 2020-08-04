@@ -1,0 +1,16 @@
+{
+	"files.exclude": {
+		"**/coverage": true,
+		"**/node_modules": true,
+		"**/dist": true,
+		"**/server": true,
+	},
+
+	"editor.codeActionsOnSave": {
+		"source.fixAll.eslint": true
+	},
+
+	"mocha.requires": [
+		"@babel/register"
+	]
+}

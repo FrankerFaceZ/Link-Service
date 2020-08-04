@@ -1,0 +1,1463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>Resolver - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <h2><a href="index.html">Home</a></h2><h2><a href="https://github.com/FrankerFaceZ/link-service" >GitHub</a></h2><h3>Classes</h3><ul><li><a href="DocumentBuilder.html">DocumentBuilder</a><ul class='methods'><li data-type='method'><a href="DocumentBuilder.html#add">add</a></li><li data-type='method'><a href="DocumentBuilder.html#addConditional">addConditional</a></li><li data-type='method'><a href="DocumentBuilder.html#addField">addField</a></li><li data-type='method'><a href="DocumentBuilder.html#addFields">addFields</a></li><li data-type='method'><a href="DocumentBuilder.html#addHeader">addHeader</a></li><li data-type='method'><a href="DocumentBuilder.html#build">build</a></li><li data-type='method'><a href="DocumentBuilder.html#content">content</a></li><li data-type='method'><a href="DocumentBuilder.html#done">done</a></li><li data-type='method'><a href="DocumentBuilder.html#end">end</a></li><li data-type='method'><a href="DocumentBuilder.html#setCompactHeader">setCompactHeader</a></li><li data-type='method'><a href="DocumentBuilder.html#setExtra">setExtra</a></li><li data-type='method'><a href="DocumentBuilder.html#setFooter">setFooter</a></li><li data-type='method'><a href="DocumentBuilder.html#setHeader">setHeader</a></li><li data-type='method'><a href="DocumentBuilder.html#setLogo">setLogo</a></li><li data-type='method'><a href="DocumentBuilder.html#setSubtitle">setSubtitle</a></li><li data-type='method'><a href="DocumentBuilder.html#setTitle">setTitle</a></li></ul></li><li><a href="LinkService.html">LinkService</a><ul class='methods'><li data-type='method'><a href="LinkService.html#normalizeURL">normalizeURL</a></li><li data-type='method'><a href="LinkService.html#pickResolver">pickResolver</a></li><li data-type='method'><a href="LinkService.html#proxyImage">proxyImage</a></li><li data-type='method'><a href="LinkService.html#registerDefaultResolvers">registerDefaultResolvers</a></li><li data-type='method'><a href="LinkService.html#registerResolver">registerResolver</a></li><li data-type='method'><a href="LinkService.html#resolve">resolve</a></li></ul></li><li><a href="Redirect.html">Redirect</a></li><li><a href="Resolver.html">Resolver</a><ul class='methods'><li data-type='method'><a href="Resolver.html#builder">builder</a></li><li data-type='method'><a href="Resolver.html#handles">handles</a></li><li data-type='method'><a href="Resolver.html#processBody">processBody</a></li><li data-type='method'><a href="Resolver.html#processHeaders">processHeaders</a></li><li data-type='method'><a href="Resolver.html#proxyImage">proxyImage</a></li><li data-type='method'><a href="Resolver.html#transformURL">transformURL</a></li></ul></li><li><a href="UseMetadata.html">UseMetadata</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-responses.html">responses</a></li></ul><h3>Global</h3><ul><li><a href="global.html#BackgroundAwareImage">BackgroundAwareImage</a></li><li><a href="global.html#boxToken">boxToken</a></li><li><a href="global.html#conditionalToken">conditionalToken</a></li><li><a href="global.html#fetch">fetch</a></li><li><a href="global.html#Field">Field</a></li><li><a href="global.html#flexToken">flexToken</a></li><li><a href="global.html#formatSize">formatSize</a></li><li><a href="global.html#formatToken">formatToken</a></li><li><a href="global.html#galleryToken">galleryToken</a></li><li><a href="global.html#i18nToken">i18nToken</a></li><li><a href="global.html#iconToken">iconToken</a></li><li><a href="global.html#imageToken">imageToken</a></li><li><a href="global.html#linkToken">linkToken</a></li><li><a href="global.html#normalizeURL">normalizeURL</a></li><li><a href="global.html#overlayToken">overlayToken</a></li><li><a href="global.html#RequestContext">RequestContext</a></li><li><a href="global.html#RichToken">RichToken</a></li><li><a href="global.html#styleToken">styleToken</a></li><li><a href="global.html#truncate">truncate</a></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">Resolver</h1>
+    
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        <h2>
+        Resolver
+        </h2>
+        
+            <div class="class-description usertext"><p>Resolvers make requests, parse responses, and format data.</p></div>
+        
+    
+</header>
+
+<article>
+    
+        <div class="container-overview">
+        
+            
+
+    
+    <h2>Constructor</h2>
+    
+
+    <h4 class="name" id="Resolver"><span class="type-signature"></span>new Resolver<span class="signature">(service)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="resolver.js.html">resolver.js</a>, <a href="resolver.js.html#line65">line 65</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>service</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="LinkService.html">LinkService</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The service this Resolver is registered to.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+        </div>
+    
+
+    
+
+    
+
+    
+    
+    
+
+     
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    <h4 class="name" id="builder"><span class="type-signature"></span>builder<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="DocumentBuilder.html">DocumentBuilder</a>}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="resolver.js.html">resolver.js</a>, <a href="resolver.js.html#line117">line 117</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>Create a new <a href="DocumentBuilder.html"><code>DocumentBuilder</code></a> instance. Purely a convenience method.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>New instance.</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="DocumentBuilder.html">DocumentBuilder</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="handles"><span class="type-signature"></span>handles<span class="signature">(host)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="resolver.js.html">resolver.js</a>, <a href="resolver.js.html#line96">line 96</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>Determine whether or not this Resolver can handle a request
+for a given domain.</p>
+<p>The default implementation checks if Resolver class has a
+static array called <code>hosts</code> and, if so, checks to see if
+the host is in that list.</p>
+<p>If you're not using the <code>hosts</code> array, you must override
+the method. Otherwise, it will throw an error.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>class MyResolver extends Resolver { };
+MyResolver.hosts = ['example.org'];
+
+const inst = new MyResolver(link_service);
+
+inst.handles('google.com'); // === false
+inst.handles('example.org'); // === true
+inst.handles('test.example.org'); // === true</code></pre>
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>host</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The domain to check.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>Whether or not this Resolver can handle requests for that domain.</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Boolean</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="processBody"><span class="type-signature"></span>processBody<span class="signature">(body, mode, ctx, request)</span><span class="type-signature"> &rarr; {Object|<a href="UseMetadata.html">UseMetadata</a>|<a href="Redirect.html">Redirect</a>}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="resolver.js.html">resolver.js</a>, <a href="resolver.js.html#line266">line 266</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>The final method called while a Resolver works. This method is used
+for handling the parsed response body. If this method returns a
+non-<code>null</code> value, that value will be the result emitted from the
+<a href="LinkService.html"><code>LinkService</code></a>.</p>
+<p>Depending on the parsing mode, <code>body</code> will be one of several different
+objects. If the <code>mode</code> is <code>buffer</code>, then <code>body</code> will be a <code>Buffer</code>
+instance as returned from <code>node-fetch</code>. If <code>mode</code> is <code>json</code>, then
+<code>body</code> will be the parsed JSON object.</p>
+<p>If <code>mode</code> is <code>html</code> or <code>xml</code>, then <code>body</code> will be a
+<a href="https://www.npmjs.com/package/cheerio">cheerio</a> instance.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>processBody(body, mode) {
+    if ( ! body?.video || mode !== 'json' )
+        return UseMetadata;
+
+    return {
+        v: 5,
+        accent: '#f00',
+        short: this.builder()
+            .setTitle(body.video.title)
+            .setSubtitle('Example Service')
+            .setLogo(SERVICE_LOGO)
+            .addImage(body.video.thumbnail)
+            .addField(
+                i18nToken('embed.example.length', 'Length'),
+                formatToken('duration', body.video.length)
+            )
+    };
+}</code></pre>
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>body</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Buffer</span>
+|
+
+<span class="param-type">Object</span>
+|
+
+<span class="param-type">cheerio</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The parsed response body. This can
+be one of several different objects, depending on the detected
+<code>Content-Type</code> of the response. If <code>ctx.parse</code> is set, the response
+body will be parsed in that manner rather than through content detection.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>mode</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The mode used for parsing the response body. This
+will be one of: <code>buffer</code>, <code>json</code>, <code>html</code>, or <code>xml</code></p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>ctx</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#RequestContext">RequestContext</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>A context object that will be maintained
+while processing this URL to keep track of extra data.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>request</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">FetchResponse</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The result of our <code>fetch</code> request, in
+case it's still needed for some reason.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>If an object is returned, that
+data will be used as the final response. If <a href="UseMetadata.html"><code>UseMetadata</code></a> or
+<a href="Redirect.html"><code>Redirect</code></a> are returned, the Resolver will pass control back
+to its <a href="LinkService.html"><code>LinkService</code></a>.</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Object</span>
+|
+
+<span class="param-type"><a href="UseMetadata.html">UseMetadata</a></span>
+|
+
+<span class="param-type"><a href="Redirect.html">Redirect</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="processHeaders"><span class="type-signature"></span>processHeaders<span class="signature">(request, ctx)</span><span class="type-signature"> &rarr; {Boolean|<a href="UseMetadata.html">UseMetadata</a>|<a href="Redirect.html">Redirect</a>}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="resolver.js.html">resolver.js</a>, <a href="resolver.js.html#line213">line 213</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>The second method called while a Resolver works. This method is used
+for determining what to do once we've received response headers.</p>
+<p>The default implementation of this method just returns <code>request.ok</code>
+to request response body handling if the request is okay. (Meaning:
+the status code was in the range of 200-299.)</p>
+<p>In some cases, we'll receive all the information we need in just the
+response headers. In those cases, we can return a falsey value from
+this method to avoid parsing the response body at all.</p>
+<p>If we need to redirect, or we determine that the metadata resolver
+would have better results, we can also fall back to those behaviors.</p>
+<blockquote>
+<p><strong>Note:</strong> If <code>ctx.follow_redirects</code> has not been set to false,
+the <a href="Resolver.html"><code>Resolver</code></a> instance will automatically handle <code>Location</code>
+and <code>Refresh</code> headers. The following example is only an example
+and does not need to be replicated in your own functions.</p>
+</blockquote>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>processHeaders(request, ctx) {
+    if ( ! request.ok )
+        return false;
+
+    if ( request.headers.has('Location') )
+        return new Redirect(request.headers.get('Location'), ctx.url);
+
+    return true;
+}</code></pre>
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>request</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">FetchResponse</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The result after waiting for our <code>fetch</code>
+request to resolve.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>ctx</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#RequestContext">RequestContext</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>A context object that will be maintained
+while processing this URL to keep track of extra data.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>If <a href="UseMetadata.html"><code>UseMetadata</code></a> or
+<a href="Redirect.html"><code>Redirect</code></a> are returned, the Resolver will pass control back
+to its <a href="LinkService.html"><code>LinkService</code></a>. Otherwise, the truthiness of the return
+value will be used to determine whether or not we should spend the
+time to handle the response body.</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Boolean</span>
+|
+
+<span class="param-type"><a href="UseMetadata.html">UseMetadata</a></span>
+|
+
+<span class="param-type"><a href="Redirect.html">Redirect</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="proxyImage"><span class="type-signature"></span>proxyImage<span class="signature">(url, size<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {String}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="resolver.js.html">resolver.js</a>, <a href="resolver.js.html#line133">line 133</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>Create a URL for passing an image through a proxy, used to
+avoid leaking end-user IP addresses and to perform sanity
+checks on the contents of the image.</p>
+<p>This just calls <a href="LinkService.html#proxyImage"><code>LinkService#proxyImage</code></a> as a convenience
+method.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>url</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+|
+
+<span class="param-type">URL</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"><p>The URL to proxy.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>size</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    <code>324</code>
+                
+                </td>
+            
+
+            <td class="description last"><p>The size parameter to pass to the proxy server.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>The proxied image URL, or <code>null</code> if no proxy server is configured.</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">String</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="transformURL"><span class="type-signature"></span>transformURL<span class="signature">(url, ctx)</span><span class="type-signature"> &rarr; {String|URL|<a href="UseMetadata.html">UseMetadata</a>|<a href="Redirect.html">Redirect</a>}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="resolver.js.html">resolver.js</a>, <a href="resolver.js.html#line168">line 168</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>The first method called while a Resolver works. This method is used for
+further processing a URL and determining what resource we actually want
+to fetch from the remove host, if any.</p>
+<p>Here, we can process a URL and, rather than requesting the normal
+webpage, redirect the request to the site's API. If we determine that we
+can't actually handle a specific URL, we can also fall back to the
+metadata provider here or outright redirect to another URL.</p>
+<p>We can also set <code>cache_key</code> on the ctx object to improve the cache hit
+rate when multiple URLs can describe the same resource.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>transformURL(url, ctx) {
+    if ( ! url.pathname.startsWith('/video/') )
+        return UseMetadata;
+
+    const video_id = url.pathname.slice(7);
+    ctx.cache_key = `my-service--${video_id}`;
+    return `https://api.service.example/v2/video?id=${video_id}`;
+}</code></pre>
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>url</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">URL</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The URL we're processing.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>ctx</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#RequestContext">RequestContext</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>A context object that will be maintained
+while processing this URL to keep track of extra data.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>If a String or URL are
+returned, they will be requested. If <a href="UseMetadata.html"><code>UseMetadata</code></a> or
+<a href="Redirect.html"><code>Redirect</code></a> are returned, the Resolver will pass control back
+to its <a href="LinkService.html"><code>LinkService</code></a>.</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">String</span>
+|
+
+<span class="param-type">URL</span>
+|
+
+<span class="param-type"><a href="UseMetadata.html">UseMetadata</a></span>
+|
+
+<span class="param-type"><a href="Redirect.html">Redirect</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.5</a> on Tue Aug 04 2020 02:50:22 GMT-0400 (Eastern Daylight Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+
+
+</body>
+</html>
