@@ -2,18 +2,29 @@
 	"name": "@ffz/link-service",
 	"version": "1.0.0",
 	"description": "A service that visits links and returns well structured, consumable metadata for clients to use for building rich embeds and tool-tips.",
-	"main": "index.js",
+	"author": "SirStendec <sir@stendec.me>",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/frankerfacez/link-service.git"
+	},
+	"bugs": {
+		"url": "https://github.com/frankerfacez/link-service/issues"
+	},
 	"scripts": {
 		"start": "nodemon -e js index.js",
 		"clean": "rimraf dist",
 		"babel": "cross-env NODE_ENV=production babel lib -d dist -s",
-		"build": "npm run clean && npm run babel",
+		"copy": "copyfiles -u 1 \"lib/**/*.json\" dist",
+		"build": "npm run clean && npm run babel && npm run copy",
 		"eslint": "eslint --fix \"lib/**/*.js\"",
 		"test": "cross-env NODE_ENV=test mocha --require @babel/register --exit",
 		"docs": "rimraf docs && jsdoc -c jsdoc.json"
 	},
-	"author": "SirStendec",
-	"license": "MIT",
+	"main": "dist/index.js",
+	"files": [
+		"dist/**/*"
+	],
 	"devDependencies": {
 		"@babel/cli": "^7.10.5",
 		"@babel/core": "^7.10.5",
@@ -21,7 +32,9 @@
 		"@babel/preset-env": "^7.10.4",
 		"@babel/register": "^7.10.5",
 		"babel-eslint": "^10.1.0",
+		"babel-plugin-source-map-support": "^2.1.2",
 		"chai": "^4.2.0",
+		"copyfiles": "^2.3.0",
 		"cross-env": "^7.0.2",
 		"docdash": "^1.2.0",
 		"eslint": "^7.5.0",
