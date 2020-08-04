@@ -5,5 +5,5 @@ npm-debug.log
 .idea
 dist
 cdn_files
-env.yaml
 server
+config.json

@@ -1,5 +1,8 @@
 # @ffz/link-service
 
+[![NPM Version](https://img.shields.io/npm/v/@ffz/link-service.svg?style=flat)](https://npmjs.org/package/@ffz/link-service)
+[![Dependency Status](https://img.shields.io/david/frankerfacez/link-service.svg?style=flat)](https://david-dm.org/frankerfacez/link-service)
+
 Link resolver service for [FrankerFaceZ](https://www.frankerfacez.com/).
 
 - Supports site-specific modules for refining responses
@@ -39,6 +42,12 @@ to start making requests to the local server.
 
 At that point, you just pick a URL for testing or enter a custom
 URL and you go to work implementing your custom resolver.
+
+### Configuration
+
+If you create a file named `config.json`, that file will be used to
+configure the `LinkService` instance from the shell script. You should
+use this file to install API keys for local testing, if necessary.
 
 
 ## Remaining Tasks

@@ -25,11 +25,20 @@ fs.promises.exists = util.promisify(fs.exists);
 
 // Resolver Initialization, aka the bit you care about
 
-const service = new LinkService({
-	image_proxy: {
-		host: LinkService.ALLOW_UNSAFE_IMAGES
-	}
-});
+let service_config = {};
+
+try {
+	service_config = require('./config.json');
+} catch (err) { /* no-op */ }
+
+if ( ! service_config.image_proxy )
+	service_config.image_proxy = {};
+
+if ( ! service_config.image_proxy.host )
+	service_config.image_proxy.host = LinkService.ALLOW_UNSAFE_IMAGES;
+
+
+const service = new LinkService(service_config);
 
 service.registerDefaultResolvers();
 
