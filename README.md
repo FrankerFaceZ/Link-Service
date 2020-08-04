@@ -49,7 +49,7 @@ URL and you go to work implementing your custom resolver.
 
 ## Documentation
 
-* [API Documentation](https://frankerfacez.github.io/link-service/)
+* [API Documentation](https://frankerfacez.github.io/Link-Service/)
 
 ## Tests
 
