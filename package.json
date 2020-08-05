@@ -1,6 +1,6 @@
 {
 	"name": "@ffz/link-service",
-	"version": "1.0.4",
+	"version": "1.0.6",
 	"description": "A service that visits links and returns well structured, consumable metadata for clients to use for building rich embeds and tool-tips.",
 	"author": "SirStendec <sir@stendec.me>",
 	"license": "MIT",
@@ -19,7 +19,8 @@
 		"build": "npm run clean && npm run babel && npm run copy",
 		"eslint": "eslint --fix \"lib/**/*.js\"",
 		"test": "cross-env NODE_ENV=test mocha --require @babel/register --exit",
-		"docs": "rimraf docs && jsdoc -c jsdoc.json"
+		"docs": "rimraf docs && jsdoc -c jsdoc.json",
+		"prepublishOnly": "npm run build"
 	},
 	"main": "dist/index.js",
 	"files": [

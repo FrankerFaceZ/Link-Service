@@ -4,6 +4,7 @@
 		"**/node_modules": true,
 		"**/dist": true,
 		"**/server": true,
+		"**/docs": true
 	},
 
 	"editor.codeActionsOnSave": {
