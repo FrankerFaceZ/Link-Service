@@ -17,6 +17,11 @@ The link service should return the following format.
 	// Type: String. Valid: Any CSS Color
 	"accent": "#F00",
 
+	// If refresh is provided, the data is expected to change at refresh
+	// and clients should update themselves if this information is still
+	// relevent for the end user.
+	"refresh": ISODateTime,
+
 	// A short embed, intended for use in space limited areas such as Twitch
 	// chat. The official client uses this for embeds within chat. Typically
 	// this should include just a header with a preview image, a title, and
@@ -99,6 +104,7 @@ BOX_TOKEN = {
 	pd-t: SPACING?, pd-l: SPACING?, pd-r: SPACING?, pd-b: SPACING?,
 	mg: SPACING?,
 	mg-t: SPACING?, mg-l: SPACING?, mg-r: SPACING?, mg-b: SPACING?,
+	markdown: Boolean?,
 
 	content: TOKEN
 }
@@ -115,6 +121,9 @@ present, the content will be limited to a height of that many lines.
 The `pd` and `mg` values are for adding padding and margins to the box,
 respectively. The sub-values are for the top, left, right, and bottom
 respectively.
+
+If `markdown` is true, then markdown formatting will be supported within
+the token's children.
 
 
 ## Conditional
@@ -148,7 +157,8 @@ the content includes significant use of media.
 ```javascript
 FIELDSET_TOKEN = {
 	type: 'fieldset',
-	fields: [LIST, OF, FIELD...]
+	fields: [LIST, OF, FIELD...],
+	markdown: Boolean?
 };
 
 FIELD = {
@@ -172,6 +182,9 @@ system. Example:
 }
 ```
 
+If `markdown` is true, then markdown formatting will be supported within
+the field names and values.
+
 
 ## Flex
 
@@ -185,6 +198,7 @@ FLEX_TOKEN = {
 	pd-t: SPACING?, pd-l: SPACING?, pd-r: SPACING?, pd-b: SPACING?,
 	mg: SPACING?,
 	mg-t: SPACING?, mg-l: SPACING?, mg-r: SPACING?, mg-b: SPACING?,
+	markdown: Boolean?,
 	content: TOKEN
 };
 
@@ -203,6 +217,9 @@ much just a direct mapping of flex.
 The `pd` and `mg` values are for adding padding and margins to the box,
 respectively. The sub-values are for the top, left, right, and bottom
 respectively.
+
+If `markdown` is true, then markdown formatting will be supported within
+the token's children.
 
 
 ## Format
@@ -258,7 +275,8 @@ HEADER_TOKEN = {
 	type: "header",
 	title: TOKEN, subtitle: TOKEN?, extra: TOKEN?,
 	height: Number?, compact: Boolean?,
-	image: IMAGE_TOKEN?, image_side: SIDE
+	image: IMAGE_TOKEN?, image_side: SIDE,
+	markdown: Boolean?
 };
 
 SIDE = "left" || "right";
@@ -271,6 +289,9 @@ If height is specified, and the header is taller than its contents, the contents
 will be vertically centered.
 
 If `compact` is true, the title, subtitle, and extra will be rendered on one line.
+
+If `markdown` is true, then markdown formatting will be supported within
+the header's title, subtitle, and extra.
 
 
 ## Icon
@@ -413,6 +434,7 @@ STYLE_TOKEN = {
 	pd-t: SPACING?, pd-l: SPACING?, pd-r: SPACING?, pd-b: SPACING?,
 	mg: SPACING?,
 	mg-t: SPACING?, mg-l: SPACING?, mg-r: SPACING?, mg-b: SPACING?,
+	markdown: Boolean?,
 	content: TOKEN
 };
 
@@ -431,6 +453,9 @@ they can have spacing added similarly to `box` and `flex`.
 The `size` string values `"1"` through `"8"` refer to font sizes that match other
 elements within the client. All other values will be interpreted as CSS measurements.
 If a plain number is sent, it will be interpreted as a pixel count.
+
+If `markdown` is true, then markdown formatting will be supported within
+the token's children.
 
 
 ## Tag (Deprecated)
