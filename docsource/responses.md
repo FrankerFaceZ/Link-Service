@@ -410,10 +410,13 @@ rather than having a special color due to being a link.
 OVERLAY_TOKEN = {
 	type: "overlay",
 	content: TOKEN,
+	background: COLOR, color: COLOR,
 	top-left: TOKEN?, top: TOKEN? top-right: TOKEN?,
 	left: TOKEN?, center: TOKEN?, right: TOKEN?,
 	bottom-left: TOKEN?, bottom: TOKEN?, bottom-right: TOKEN?
 };
+
+COLOR = "base" || "alt" || "alt-2" || "link" || CSSColor;
 ```
 
 Overlay tokens are for placing content in alignment above other content.
@@ -421,6 +424,9 @@ Typically, this is used for placing metadata above an image or video.
 
 Content is the base content, and all other properties are for placing
 content over the base content aligned to a specific side or corner.
+
+`background` allows for overriding the background color of the
+overlay area itself, which appears behind the content.
 
 
 ## Style
