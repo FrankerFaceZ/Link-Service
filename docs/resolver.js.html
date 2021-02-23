@@ -112,6 +112,9 @@ export class CacheInterface {
  * @property {URL} referrer The referrer of the request. May be changed
  * within {@link Resolver#transformURL} to change the `Referer` header
  * sent with the request.
+ * @property {Boolean} [skip_request] If set to true, no fetch request
+ * will be performed and instead {@link Resolver#processBody} will be
+ * called immediately with only null values and this context object.
  * @property {Function} [fetch] The version of fetch to use. Useful in case
  * you want to wrap fetch with something to, for example, automatically
  * renew a client credential token when necessary and add it to the
@@ -397,130 +400,141 @@ class Resolver {
 		}
 
 		// Step 3. The Request
-		if ( ctx.referrer )
-			referrer = ctx.referrer;
+		let data;
 
-		ctx.url = request_url;
+		if ( ! ctx.skip_request ) {
+			if ( ctx.referrer )
+				referrer = ctx.referrer;
 
-		let headers = {
-			Referer: referrer ? referrer.toString() : this.service.opts.default_referrer,
-			'User-Agent': this.service.opts.user_agent
-		};
+			ctx.url = request_url;
 
-		if ( ctx.headers )
-			headers = {...headers, ...ctx.headers};
+			let headers = {
+				Referer: referrer ? referrer.toString() : this.service.opts.default_referrer,
+				'User-Agent': this.service.opts.user_agent
+			};
 
-		// Let individual resolvers override fetch if they need to.
-		const req_fetch = ctx.fetch ?? fetch;
+			if ( ctx.headers )
+				headers = {...headers, ...ctx.headers};
 
-		let options = {
-			headers,
-			redirect: 'manual',
-			size: 5000000,
-			timeout: ctx.timeout ?? this.service.opts.resolver_timeout
-		};
+			// Let individual resolvers override fetch if they need to.
+			const req_fetch = ctx.fetch ?? fetch;
 
-		if ( ctx.options )
-			options = Object.assign(options, ctx.options);
+			let options = {
+				headers,
+				redirect: 'manual',
+				size: 5000000,
+				timeout: ctx.timeout ?? this.service.opts.resolver_timeout
+			};
 
-		let request;
-		try {
-			request = ctx.request = await req_fetch(request_url.toString(), options);
+			if ( ctx.options )
+				options = Object.assign(options, ctx.options);
 
-		} catch (err) {
-			if ( err.type === 'aborted' )
-				throw new TimeoutError;
-			else
-				throw new NetworkError;
-		}
-
-		if ( ! request ) {
-			console.error(new RuntimeError('Missing Fetch Result', ctx.fetch), request_url);
-			throw new NetworkError();
-		}
-
-		// Redirect Check: Support Location for 3xx, and Refresh for all response codes.
-		if ( ctx.follow_redirects ) {
-			let redirect = null;
-
-			const status = request.status;
-			if ( status >= 300 &amp;&amp; status &lt; 400 )
-				redirect = request.headers.get('Location');
-			else if ( request.headers.has('Refresh') ) {
-				const match = REFRESH_TARGET.exec(request.headers.get('Refresh'));
-				if ( match )
-					redirect = match[1];
-			}
-
-			if ( redirect ) {
-				request.abort();
-				const out = new Redirect(redirect, ctx.url);
-
-				if ( this.service.cache &amp;&amp; ctx.cache_key )
-					await this.service.cache.set(ctx.cache_key, out, ctx.cache_opts);
-
-				return out;
-			}
-		}
-
-		// Step 4. Process Headers
-		let wants_body = await this.processHeaders(request, ctx);
-		let data = null;
-
-		// Step 5. Process Body
-		if ( wants_body === UseMetadata || wants_body instanceof UseMetadata || wants_body instanceof Redirect ) {
-			data = wants_body;
-
-		} else if ( wants_body ) {
-			// Process the body.
-			if ( wants_body === true )
-				wants_body = ctx.parse || true;
-
-			if ( wants_body === true ) {
-				const content_type = request.headers.get('content-type') || '';
-				if ( content_type.includes('application/json') )
-					wants_body = 'json';
-				else if ( content_type.includes('text/html') || content_type.includes('application/xhtml+xml') )
-					wants_body = 'html';
-				else if ( content_type.includes('xml') )
-					wants_body = 'xml';
-			}
-
-			let body, mode = null;
-
+			let request;
 			try {
-				if ( wants_body === 'buffer' ) {
-					body = await request.buffer();
-					mode = 'buffer';
-
-				} else if ( wants_body === 'json' ) {
-					body = await request.json();
-					mode = 'json';
-
-				} else if ( wants_body === 'html' ) {
-					const raw = await request.text();
-					body = cheerio.load(raw);
-					mode = 'html';
-
-				} else if ( wants_body === 'xml' ) {
-					const raw = await request.text();
-					body = cheerio.load(raw, {xmlMode: true});
-					mode = 'xml';
-				}
+				request = ctx.request = await req_fetch(request_url.toString(), options);
 
 			} catch (err) {
-				request.abort();
-				console.error(err);
-				return ctx.response;
+				if ( err.type === 'aborted' )
+					throw new TimeoutError;
+				else
+					throw new NetworkError;
 			}
 
-			data = this.processBody(body, mode, ctx, request);
+			if ( ! request ) {
+				console.error(new RuntimeError('Missing Fetch Result', ctx.fetch), request_url);
+				throw new NetworkError();
+			}
+
+			// Redirect Check: Support Location for 3xx, and Refresh for all response codes.
+			if ( ctx.follow_redirects ) {
+				let redirect = null;
+
+				const status = request.status;
+				if ( status >= 300 &amp;&amp; status &lt; 400 )
+					redirect = request.headers.get('Location');
+				else if ( request.headers.has('Refresh') ) {
+					const match = REFRESH_TARGET.exec(request.headers.get('Refresh'));
+					if ( match )
+						redirect = match[1];
+				}
+
+				if ( redirect ) {
+					request.abort();
+					const out = new Redirect(redirect, ctx.url);
+
+					if ( this.service.cache &amp;&amp; ctx.cache_key )
+						await this.service.cache.set(ctx.cache_key, out, ctx.cache_opts);
+
+					return out;
+				}
+			}
+
+			// Step 4. Process Headers
+			let wants_body = await this.processHeaders(request, ctx);
+			data = null;
+
+			// Step 5. Process Body
+			if ( wants_body === UseMetadata || wants_body instanceof UseMetadata || wants_body instanceof Redirect ) {
+				data = wants_body;
+
+			} else if ( wants_body ) {
+				// Process the body.
+				if ( wants_body === true )
+					wants_body = ctx.parse || true;
+
+				if ( wants_body === true ) {
+					const content_type = request.headers.get('content-type') || '';
+					if ( content_type.includes('application/json') )
+						wants_body = 'json';
+					else if ( content_type.includes('text/html') || content_type.includes('application/xhtml+xml') )
+						wants_body = 'html';
+					else if ( content_type.includes('xml') )
+						wants_body = 'xml';
+				}
+
+				let body, mode = null;
+
+				try {
+					if ( wants_body === 'buffer' ) {
+						body = await request.buffer();
+						mode = 'buffer';
+
+					} else if ( wants_body === 'json' ) {
+						body = await request.json();
+						mode = 'json';
+
+					} else if ( wants_body === 'html' ) {
+						const raw = await request.text();
+						body = cheerio.load(raw);
+						mode = 'html';
+
+					} else if ( wants_body === 'xml' ) {
+						const raw = await request.text();
+						body = cheerio.load(raw, {xmlMode: true});
+						mode = 'xml';
+					}
+
+				} catch (err) {
+					request.abort();
+					console.error(err);
+					return ctx.response;
+				}
+
+				data = this.processBody(body, mode, ctx, request);
+			}
+
+			// Step 6. Finish up.
+
+			// Make sure we're done. We should be.
+			request.abort();
+
+		} else {
+			// If we didn't want to make a request, just call
+			// processBody directly.
+
+			data = this.processBody(null, null, ctx, null);
 		}
 
-		// Step 6. Finish up.
-
-		// Make sure we're done. We should be.
-		request.abort();
 
 		let out = data ?? ctx.response;
 
@@ -557,7 +571,7 @@ class Resolver {
 		if ( this.service.cache &amp;&amp; out )
 			out.cache = 'miss';
 
-		if ( ctx.cache_key === false )
+		if ( ctx.cache_key === false &amp;&amp; out )
 			out.cache = 'off';
 
 		return out;
@@ -580,7 +594,7 @@ export default Resolver;
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.5</a> on Thu Aug 20 2020 15:04:26 GMT-0400 (Eastern Daylight Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.5</a> on Tue Feb 23 2021 17:21:30 GMT-0500 (Eastern Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>
