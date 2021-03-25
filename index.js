@@ -110,11 +110,20 @@ let server;
 
 app.use(async ctx => {
 	ctx.set('Access-Control-Allow-Origin', '*');
-	if ( ! ctx.query.url )
-		ctx.throw(404);
+	if ( ctx.path === '/examples' ) {
+		ctx.body = {
+			examples: await service.getExamples()
+		};
 
-	const data = await service.resolve(ctx.query.url);
-	ctx.body = data;
+	} else if ( ctx.path === '/' ) {
+		if ( ! ctx.query.url )
+			ctx.throw(404);
+
+		const data = await service.resolve(ctx.query.url);
+		ctx.body = data;
+
+	} else
+		ctx.throw(404);
 });
 
 async function runServer(port) {
