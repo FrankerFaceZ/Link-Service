@@ -8,7 +8,8 @@ Link resolver service for [FrankerFaceZ](https://www.frankerfacez.com/).
 - Supports site-specific modules for refining responses
 - Falls back to `<meta>` tags and HTML scraping if necessary
 - Keeps track of page redirects
-- Checks pages against Google SafeBrowsing (if configured)
+- Support for safety checking individual URLs, including
+  via Google SafeBrowsing if configured.
 - Support for caching, integrated with redirect handling
 
 * * *

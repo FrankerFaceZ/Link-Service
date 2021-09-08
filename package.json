@@ -1,6 +1,6 @@
 {
 	"name": "@ffz/link-service",
-	"version": "2.1.1",
+	"version": "2.2.0",
 	"description": "A service that visits links and returns well structured, consumable metadata for clients to use for building rich embeds and tool-tips.",
 	"author": "SirStendec <sir@stendec.me>",
 	"license": "MIT",
@@ -28,7 +28,7 @@
 	],
 	"devDependencies": {
 		"@babel/cli": "^7.15.4",
-		"@babel/core": "^7.15.4",
+		"@babel/core": "^7.15.5",
 		"@babel/node": "^7.15.4",
 		"@babel/preset-env": "^7.15.4",
 		"@babel/register": "^7.15.3",
@@ -39,10 +39,10 @@
 		"cross-env": "^7.0.3",
 		"docdash": "^1.2.0",
 		"eslint": "^7.32.0",
-		"eslint-plugin-mocha": "^8.2.0",
+		"eslint-plugin-mocha": "^9.0.0",
 		"jsdoc": "^3.6.7",
 		"koa": "^2.13.1",
-		"mocha": "^8.4.0",
+		"mocha": "^9.1.1",
 		"nodemon": "^2.0.12",
 		"rimraf": "^3.0.2",
 		"selfsigned": "^1.10.11"
@@ -54,7 +54,7 @@
 		"html-entities": "^2.3.2",
 		"mmmagic": "^0.5.3",
 		"mnemonist": "^0.38.3",
-		"node-fetch": "^2.6.1",
+		"node-fetch": "^2.6.2",
 		"require-all": "^3.0.0",
 		"simple-oauth2": "^4.2.0",
 		"source-map-support": "^0.5.19",

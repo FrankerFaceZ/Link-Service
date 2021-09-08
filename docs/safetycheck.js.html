@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>Redirect - Documentation</title>
+    <title>safetycheck.js - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -32,226 +32,193 @@
 
 <div id="main">
     
-    <h1 class="page-title">Redirect</h1>
+    <h1 class="page-title">safetycheck.js</h1>
     
 
     
 
 
 
-
-<section>
-
-<header>
     
-        <h2>
-        Redirect
-        </h2>
-        
-            <div class="class-description usertext"><p>When a <a href="Resolver.html"><code>Resolver</code></a> returns an instance of this class, the
-<a href="LinkService.html"><code>LinkService</code></a> will perform a redirect. The current URL
-will be recorded, and a new lookup will be performed for the
-new URL.</p></div>
-        
-    
-</header>
-
-<article>
-    
-        <div class="container-overview">
-        
-            
-
-    
-    <h2>Constructor</h2>
-    
-
-    <h4 class="name" id="Redirect"><span class="type-signature"></span>new Redirect<span class="signature">(url, base)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="results.js.html">results.js</a>, <a href="results.js.html#line12">line 12</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>url</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-|
-
-<span class="param-type">URL</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>The URL to redirect to.</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>base</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">URL</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>The base URL for the redirect. Generally, this is the current URL. Used for resolving relative URLs.</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-        </div>
-    
-
-    
-
-    
-
-    
-        <h3 class="subsection-title">Classes</h3>
-
-        <dl>
-            <dt><a href="Redirect.html">Redirect</a></dt>
-            <dd></dd>
-        </dl>
-    
-    
-    
-
-     
-
-    
-
-    
-
-    
-
-    
-
-    
-</article>
-
-</section>
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
+
+import fetch from './fetch-timeout';
+
+/**
+ * CheckedURL
+ *
+ * @typedef {Object} CheckedURL
+ * @property {String} URL the URL that was checked
+ * @property {Boolean} unsafe Whether or not the URL should
+ * be considered unsafe.
+ * @property {String[]} flags A list of reasons why the URL
+ * is unsafe.
+ */
+
+
+/**
+ * SafetyCheck instances check URLs for potential safety issues.
+ *
+ * @param {LinkService} service The service this SafetyCheck is
+ * registered to.
+ */
+class SafetyCheck {
+
+	constructor(service) {
+		this.service = service;
+	}
+
+	/**
+	 * Check to see if the provided URLs should be considered safe or
+	 * not. This method may return a Promise, but is not required to.
+	 *
+	 * Rather than returning a value, this method should modify the
+	 * CheckedURLs by setting `unsafe` to true if necessary and by
+	 * adding strings to flags.
+	 *
+	 * @param {Object.&lt;string, CheckedURL>} urls The URLs to check.
+	 * @returns {Promise|undefined} If a Promise is returned, the
+	 * LinkService will wait until the Promise resolves to consider
+	 * the URLs checked.
+	 */
+	check(urls) {
+		throw new Error('Not Implemented');
+	}
+}
+
+/**
+ * SimpleSafetyCheck allows you to check single URLs at once
+ * using the checkSingle method, while handling iteration over
+ * each URL for you.
+ *
+ * @example
+ *
+ * const blacklist = new Set();
+ *
+ * blacklist.add('http://www.google.com/');
+ *
+ * class BlacklistedURLs extends SimpleSafetyCheck {
+ *     checkSingle(url) {
+ *         return blacklist.has(url.toString());
+ *     }
+ * }
+ *
+ */
+export class SimpleSafetyCheck extends SafetyCheck {
+
+	constructor(service) {
+		super(service);
+		this.name = this.constructor.name;
+	}
+
+	/**
+	 * Check to see if the provided URL should be considered safe
+	 * or not. Returns a truthy value if the URL is flagged as
+	 * potentially unsafe. Return a string to give a specific
+	 * reason, otherwise the name of the check will be used.
+	 *
+	 * If this returns a Promise, the Promise will be awaited.
+	 *
+	 * @param {URL} url The URL to be tested.
+	 * @returns {Promise&lt;Boolean|String>|Boolean|String} The
+	 * result of the safety check.
+	 */
+	checkSingle(url) {
+		throw new Error('Not Implemented');
+	}
+
+	_handle(data, result) {
+		if ( ! result )
+			return;
+
+		data.unsafe = true;
+
+		if ( ! Array.isArray(result) )
+			result = [result];
+
+		for (let flag of result) {
+			if ( typeof flag === 'string' )
+				flag = `${this.name}:${flag}`;
+			else
+				flag = this.name;
+
+			if ( ! data.flags.includes(flag) )
+				data.flags.push(flag);
+		}
+	}
+
+	check(urls) {
+		if ( ! urls )
+			return null;
+
+		const promises = [];
+
+		for (const data of Object.values(urls)) {
+			const result = this.checkSingle(data.url);
+			if ( result instanceof Promise )
+				promises.push(result.then(r => this._handle(data, r)));
+			else
+				this._handle(data, result);
+		}
+
+		if ( promises.length )
+			return Promise.all(promises);
+	}
+}
+
+
+export class SafeBrowsing extends SafetyCheck {
+
+	constructor(service, url) {
+		super(service);
+		this.url = url;
+	}
+
+	async check(urls) {
+		if ( ! this.url || ! urls )
+			return null;
+
+		const data = await fetch(`${this.url}/v4/threatMatches:find`, {
+			method: 'POST',
+			body: JSON.stringify({
+				threatInfo: {
+					threatTypes: ['UNWANTED_SOFTWARE', 'MALWARE', 'SOCIAL_ENGINEERING'],
+					platformTypes: ['ANY_PLATFORM'],
+					threatEntryTypes: ['URL'],
+					threatEntries: Object.keys(urls).map(url => ({url}))
+				}
+			}),
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			timeout: 1000
+		}).then(resp => resp.ok ? resp.json() : null).catch(() => null);
+
+		if ( ! data || ! Array.isArray(data.matches) || ! data.matches.length )
+			return null;
+
+		for (const match of data.matches) {
+			const url = match?.threat?.url,
+				data = urls[url];
+			if ( ! data )
+				continue;
+
+			const type = `SafeBrowsing:${match.threatType}`;
+			data.unsafe = true;
+			if ( ! data.flags.includes(type) )
+				data.flags.push(type);
+		}
+	}
+
+}
+
+
+export default SafetyCheck;
+</code></pre>
+        </article>
+    </section>
 
 
 

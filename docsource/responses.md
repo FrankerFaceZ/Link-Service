@@ -276,6 +276,7 @@ HEADER_TOKEN = {
 	title: TOKEN, subtitle: TOKEN?, extra: TOKEN?,
 	height: Number?, compact: Boolean?,
 	image: IMAGE_TOKEN?, image_side: SIDE,
+	sfw_image: IMAGE_TOKEN?,
 	markdown: Boolean?
 };
 
@@ -287,6 +288,10 @@ formatted text. The image fills the height of the header. If a height is not
 specified, the header will expand to contain its title, subtitle, and extra.
 If height is specified, and the header is taller than its contents, the contents
 will be vertically centered.
+
+If `sfw_image` is provided, it will be used by clients as a fallback image if the
+main image is not flagged SFW and the user has not chosen to view potentially
+NSFW content.
 
 If `compact` is true, the title, subtitle, and extra will be rendered on one line.
 

@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>Redirect - Documentation</title>
+    <title>SimpleSafetyCheck - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -32,7 +32,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">Redirect</h1>
+    <h1 class="page-title">SimpleSafetyCheck</h1>
     
 
     
@@ -45,13 +45,12 @@
 <header>
     
         <h2>
-        Redirect
+        SimpleSafetyCheck
         </h2>
         
-            <div class="class-description usertext"><p>When a <a href="Resolver.html"><code>Resolver</code></a> returns an instance of this class, the
-<a href="LinkService.html"><code>LinkService</code></a> will perform a redirect. The current URL
-will be recorded, and a new lookup will be performed for the
-new URL.</p></div>
+            <div class="class-description usertext"><p>SimpleSafetyCheck allows you to check single URLs at once
+using the checkSingle method, while handling iteration over
+each URL for you.</p></div>
         
     
 </header>
@@ -66,7 +65,7 @@ new URL.</p></div>
     <h2>Constructor</h2>
     
 
-    <h4 class="name" id="Redirect"><span class="type-signature"></span>new Redirect<span class="signature">(url, base)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="SimpleSafetyCheck"><span class="type-signature"></span>new SimpleSafetyCheck<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 
@@ -78,7 +77,7 @@ new URL.</p></div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="results.js.html">results.js</a>, <a href="results.js.html#line12">line 12</a>
+        <a href="safetycheck.js.html">safetycheck.js</a>, <a href="safetycheck.js.html#line65">line 65</a>
     </li></ul></dd>
     
 
@@ -125,6 +124,138 @@ new URL.</p></div>
 
 
 
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>const blacklist = new Set();
+
+blacklist.add('http://www.google.com/');
+
+class BlacklistedURLs extends SimpleSafetyCheck {
+    checkSingle(url) {
+        return blacklist.has(url.toString());
+    }
+}</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+        </div>
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Classes</h3>
+
+        <dl>
+            <dt><a href="SimpleSafetyCheck.html">SimpleSafetyCheck</a></dt>
+            <dd></dd>
+        </dl>
+    
+    
+    
+
+     
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    <h4 class="name" id="checkSingle"><span class="type-signature"></span>checkSingle<span class="signature">(url)</span><span class="type-signature"> &rarr; {Promise.&lt;(Boolean|String)>|Boolean|String}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="safetycheck.js.html">safetycheck.js</a>, <a href="safetycheck.js.html#line84">line 84</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>Check to see if the provided URL should be considered safe
+or not. Returns a truthy value if the URL is flagged as
+potentially unsafe. Return a string to give a specific
+reason, otherwise the name of the check will be used.</p>
+<p>If this returns a Promise, the Promise will be awaited.</p>
+</div>
+
+
+
+
+
+
+
+
+
 
 
     <h5>Parameters:</h5>
@@ -158,9 +289,6 @@ new URL.</p></div>
             <td class="type">
             
                 
-<span class="param-type">String</span>
-|
-
 <span class="param-type">URL</span>
 
 
@@ -171,30 +299,7 @@ new URL.</p></div>
 
             
 
-            <td class="description last"><p>The URL to redirect to.</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>base</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">URL</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>The base URL for the redirect. Generally, this is the current URL. Used for resolving relative URLs.</p></td>
+            <td class="description last"><p>The URL to be tested.</p></td>
         </tr>
 
     
@@ -216,34 +321,39 @@ new URL.</p></div>
 
 
 
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>The
+result of the safety check.</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;(Boolean|String)></span>
+|
+
+<span class="param-type">Boolean</span>
+|
+
+<span class="param-type">String</span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
         
-        </div>
-    
-
-    
-
-    
-
-    
-        <h3 class="subsection-title">Classes</h3>
-
-        <dl>
-            <dt><a href="Redirect.html">Redirect</a></dt>
-            <dd></dd>
-        </dl>
-    
-    
-    
-
-     
-
-    
-
-    
-
     
 
     

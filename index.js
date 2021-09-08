@@ -18,6 +18,7 @@ import LinkService from './lib';
 import fetch from './lib/fetch-timeout';
 import {truncate} from './lib/utilities';
 import Builder from './lib/builder';
+import {SimpleSafetyCheck} from './lib/safetycheck';
 
 // Why is this missing, node?
 fs.promises.exists = util.promisify(fs.exists);
@@ -37,10 +38,44 @@ if ( ! service_config.image_proxy )
 if ( ! service_config.image_proxy.host )
 	service_config.image_proxy.host = LinkService.ALLOW_UNSAFE_IMAGES;
 
-
 const service = new LinkService(service_config);
 
 service.registerDefaultResolvers();
+
+// PhishTank
+let pt_urls = null, phishtank_urls = null;
+
+try {
+	phishtank_urls = require('./verified_online.json');
+} catch (err) { /* no-op */ }
+
+if ( phishtank_urls ) {
+	pt_urls = new Set;
+	for (const entry of phishtank_urls) {
+		if ( ! entry || ! entry.verified || ! entry.online || ! entry.url )
+			continue;
+
+		let url;
+		try {
+			url = service.normalizeURL(entry.url);
+		} catch (err) {
+			continue;
+		}
+
+		pt_urls.add(url.toString());
+	}
+
+	// Free that memory.
+	phishtank_urls = null;
+
+	class PhishTank extends SimpleSafetyCheck {
+		checkSingle(url) {
+			return pt_urls.has(url.toString());
+		}
+	}
+
+	service.registerSafetyCheck(PhishTank);
+}
 
 
 // From this point on, everything is about setting up the REPL + HTTP server.
@@ -197,6 +232,7 @@ function initializeContext(ctx) {
 	ctx.fetch = fetch;
 	ctx.getCert = getCert;
 	ctx.truncate = truncate;
+	ctx.pt_urls = pt_urls;
 }
 
 initializeContext(repl.context);
