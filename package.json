@@ -12,7 +12,7 @@
 		"url": "https://github.com/frankerfacez/link-service/issues"
 	},
 	"scripts": {
-		"start": "nodemon -e js index.js",
+		"start": "nodemon -e js --experimental-modules --es-module-specifier-resolution=node index.js",
 		"clean": "rimraf dist",
 		"babel": "cross-env NODE_ENV=production babel lib -d dist -s",
 		"copy": "copyfiles -u 1 \"lib/**/*.json\" dist",
@@ -26,6 +26,7 @@
 	"files": [
 		"dist/**/*"
 	],
+	"type": "module",
 	"devDependencies": {
 		"@babel/cli": "^7.15.4",
 		"@babel/core": "^7.15.5",
