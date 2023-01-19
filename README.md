@@ -1,7 +1,6 @@
 # @ffz/link-service
 
 [![NPM Version](https://img.shields.io/npm/v/@ffz/link-service.svg?style=flat)](https://npmjs.org/package/@ffz/link-service)
-[![Dependency Status](https://img.shields.io/david/frankerfacez/link-service.svg?style=flat)](https://david-dm.org/frankerfacez/link-service)
 
 Link resolver service for [FrankerFaceZ](https://www.frankerfacez.com/).
 
@@ -14,20 +13,39 @@ Link resolver service for [FrankerFaceZ](https://www.frankerfacez.com/).
 
 * * *
 
-## Install
+## Use as a Dependency
 
 ```bash
 $ npm install @ffz/link-service --save
 ```
 
-## Getting Started
+```javascript
+import LinkService from '@ffz/link-service';
 
-There's a built-in tool that both provides an interactive shell and
+const service = new LinkService(config);
+
+const embed = await service.resolve(url);
+```
+
+
+## Getting Started Developing
+
+This project uses the [pnpm](https://pnpm.io/) package manager. To get
+everything you need:
+
+1. Install node.js and [pnpm](https://pnpm.io/)
+2. Run `pnpm install` within the project's directory.
+
+From there, you can use pnpm to build the service from source by running
+`pnpm build`, build documentation with `pnpm docs`, and start the
+development tool.
+
+The built-in development tool both provides an interactive shell and
 that runs an HTTPS server the client can communicate with for testing.
 To start it, just run:
 
 ```bash
-$ npm start
+$ pnpm start
 ```
 
 By default, this will start the HTTPS server listening on port 8002
@@ -53,6 +71,7 @@ use this file to install API keys for local testing, if necessary.
 
 ## Remaining Tasks
 
+* Add more services
 * Finish Documentation
 * Write Tests
 
@@ -63,7 +82,7 @@ use this file to install API keys for local testing, if necessary.
 
 ## Tests
 
-Run tests using `npm test`.
+Run tests using `pnpm test`.
 
 ## Contributions and Support
 
