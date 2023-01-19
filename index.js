@@ -19,6 +19,7 @@ import fetch from './lib/fetch-timeout';
 import {truncate} from './lib/utilities';
 import Builder from './lib/builder';
 import {SimpleSafetyCheck} from './lib/safetycheck';
+import {PassThrough} from 'stream';
 
 // Why is this missing, node?
 fs.promises.exists = util.promisify(fs.exists);
@@ -143,9 +144,34 @@ async function getCert() {
 const app = new Koa();
 let server;
 
+
 app.use(async ctx => {
 	ctx.set('Access-Control-Allow-Origin', '*');
-	if ( ctx.path === '/examples' ) {
+	if ( ctx.path === '/sse' ) {
+		ctx.req.socket.setTimeout(0);
+		ctx.req.socket.setNoDelay(true);
+		ctx.req.socket.setKeepAlive(true);
+
+		ctx.set({
+			'Content-Type': 'text/event-stream',
+			'Cache-Control': 'no-cache',
+			'Connection': 'keep-alive'
+		});
+
+		const stream = new PassThrough();
+
+		ctx.status = 200;
+		ctx.body = stream;
+
+		stream.write('data: connected\n\n');
+
+		const interval = setInterval(() => {
+			stream.write(`data: ping\n\n`);
+		}, 30000);
+
+		stream.on('close', () => clearInterval(interval));
+
+	} else if ( ctx.path === '/examples' ) {
 		ctx.body = {
 			examples: await service.getExamples()
 		};
@@ -153,6 +179,8 @@ app.use(async ctx => {
 	} else if ( ctx.path === '/' ) {
 		if ( ! ctx.query.url )
 			ctx.throw(404);
+
+		console.log('Request:', ctx.query.url);
 
 		const data = await service.resolve(ctx.query.url);
 		ctx.body = data;
