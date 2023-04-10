@@ -15,15 +15,21 @@ import Koa from 'koa';
 import cheerio from 'cheerio';
 
 import LinkService from './lib';
-import fetch from './lib/fetch-timeout';
 import {truncate} from './lib/utilities';
 import Builder from './lib/builder';
 import {SimpleSafetyCheck} from './lib/safetycheck';
 import {PassThrough} from 'stream';
 
+let og_fetch = fetch,
+	og_abort = AbortController;
+
+if ( ! og_fetch )
+	og_fetch = require('node-fetch');
+if ( ! og_abort )
+	og_abort = require('abort-controller');
+
 // Why is this missing, node?
 fs.promises.exists = util.promisify(fs.exists);
-
 
 // Resolver Initialization, aka the bit you care about
 
@@ -38,6 +44,9 @@ if ( ! service_config.image_proxy )
 
 if ( ! service_config.image_proxy.host )
 	service_config.image_proxy.host = LinkService.ALLOW_UNSAFE_IMAGES;
+
+service_config.fetch = og_fetch;
+service_config.AbortController = og_abort;
 
 const service = new LinkService(service_config);
 
@@ -257,7 +266,7 @@ const repl = REPL.start('>>> ');
 function initializeContext(ctx) {
 	ctx.service = service;
 	ctx.Builder = Builder;
-	ctx.fetch = fetch;
+	ctx.fetch = service.fetch;
 	ctx.getCert = getCert;
 	ctx.truncate = truncate;
 	ctx.pt_urls = pt_urls;
@@ -336,7 +345,7 @@ repl.defineCommand('fetch', {
 
 		let req;
 		try {
-			req = await fetch(url, {
+			req = await service.fetch(url, {
 				headers: {
 					Referer: service.opts.default_referrer,
 					'User-Agent': service.opts.user_agent

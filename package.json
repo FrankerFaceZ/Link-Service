@@ -1,6 +1,6 @@
 {
 	"name": "@ffz/link-service",
-	"version": "2.4.1",
+	"version": "3.0.0",
 	"description": "A service that visits links and returns well structured, consumable metadata for clients to use for building rich embeds and tool-tips.",
 	"author": "SirStendec <sir@stendec.me>",
 	"license": "MIT",
@@ -52,12 +52,10 @@
 		"mmmagic": "^0.5.3"
 	},
 	"dependencies": {
-		"abort-controller": "^3.0.0",
 		"cheerio": "1.0.0-rc.12",
 		"dayjs": "^1.11.7",
 		"html-entities": "^2.3.3",
 		"mnemonist": "^0.39.5",
-		"node-fetch": "^2.6.8",
 		"require-all": "^3.0.0",
 		"simple-oauth2": "^4.3.0",
 		"source-map-support": "^0.5.21",
