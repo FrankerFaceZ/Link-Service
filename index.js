@@ -15,14 +15,22 @@ import Koa from 'koa';
 import cheerio from 'cheerio';
 
 import LinkService from './lib';
-import fetch from './lib/fetch-timeout';
 import {truncate} from './lib/utilities';
 import Builder from './lib/builder';
 import {SimpleSafetyCheck} from './lib/safetycheck';
+import {PassThrough} from 'stream';
+import CookieJar from './lib/cookie-jar';
+
+let og_fetch = fetch,
+	og_abort = AbortController;
+
+if ( ! og_fetch )
+	og_fetch = require('node-fetch');
+if ( ! og_abort )
+	og_abort = require('abort-controller');
 
 // Why is this missing, node?
 fs.promises.exists = util.promisify(fs.exists);
-
 
 // Resolver Initialization, aka the bit you care about
 
@@ -37,6 +45,9 @@ if ( ! service_config.image_proxy )
 
 if ( ! service_config.image_proxy.host )
 	service_config.image_proxy.host = LinkService.ALLOW_UNSAFE_IMAGES;
+
+service_config.fetch = og_fetch;
+service_config.AbortController = og_abort;
 
 const service = new LinkService(service_config);
 
@@ -143,9 +154,48 @@ async function getCert() {
 const app = new Koa();
 let server;
 
+
 app.use(async ctx => {
 	ctx.set('Access-Control-Allow-Origin', '*');
-	if ( ctx.path === '/examples' ) {
+	if ( ctx.path === '/sse' ) {
+		if ( ctx.method === 'OPTIONS' ) {
+			ctx.status = 204;
+			return;
+
+		} else if ( ctx.method !== 'GET' )
+			ctx.throw(405);
+
+		ctx.req.socket.setTimeout(0);
+		ctx.req.socket.setNoDelay(true);
+		ctx.req.socket.setKeepAlive(true);
+
+		ctx.set({
+			'Content-Type': 'text/event-stream',
+			'Cache-Control': 'no-cache',
+			'Connection': 'keep-alive'
+		});
+
+		const stream = new PassThrough();
+
+		ctx.status = 200;
+		ctx.body = stream;
+
+		stream.write('data: connected\n\n');
+
+		const interval = setInterval(() => {
+			stream.write(`data: ping\n\n`);
+		}, 30000);
+
+		stream.on('close', () => clearInterval(interval));
+
+	} else if ( ctx.path === '/examples' ) {
+		if ( ctx.method === 'OPTIONS' ) {
+			ctx.status = 204;
+			return;
+
+		} else if ( ctx.method !== 'GET' )
+			ctx.throw(405);
+
 		ctx.body = {
 			examples: await service.getExamples()
 		};
@@ -153,6 +203,15 @@ app.use(async ctx => {
 	} else if ( ctx.path === '/' ) {
 		if ( ! ctx.query.url )
 			ctx.throw(404);
+
+		if ( ctx.method === 'OPTIONS' ) {
+			ctx.status = 204;
+			return;
+
+		} else if ( ctx.method !== 'GET' )
+			ctx.throw(405);
+
+		console.log('Request:', ctx.query.url);
 
 		const data = await service.resolve(ctx.query.url);
 		ctx.body = data;
@@ -229,7 +288,7 @@ const repl = REPL.start('>>> ');
 function initializeContext(ctx) {
 	ctx.service = service;
 	ctx.Builder = Builder;
-	ctx.fetch = fetch;
+	ctx.fetch = service.fetch;
 	ctx.getCert = getCert;
 	ctx.truncate = truncate;
 	ctx.pt_urls = pt_urls;
@@ -306,16 +365,18 @@ repl.defineCommand('fetch', {
 			return;
 		}
 
+		let cookies = new CookieJar;
+
 		let req;
 		try {
-			req = await fetch(url, {
+			req = await service.fetch(url, {
 				headers: {
 					Referer: service.opts.default_referrer,
 					'User-Agent': service.opts.user_agent
 				},
 				size: 5000000,
 				timeout: service.opts.resolver_timeout
-			});
+			},  cookies);
 		} catch (err) {
 			this.clearBufferedCommand();
 			console.error('Error Requesting URL', err);
@@ -324,6 +385,7 @@ repl.defineCommand('fetch', {
 		}
 
 		repl.context.$r = req;
+		repl.context.$c = cookies;
 
 		const content_type = req.headers.get('content-type') || '';
 		let body;

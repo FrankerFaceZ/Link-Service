@@ -10,17 +10,28 @@ The link service should return the following format.
 
 	// The Tooltip Version. Prevents earlier clients from trying to render
 	// new content with potentially problematic results.
-	// Type: Number. Valid: 5
-	"v": 5,
+	// Type: Number. Valid: 8
+	"v": 8,
 
 	// An accent color, optionally used when presenting content.
 	// Type: String. Valid: Any CSS Color
 	"accent": "#F00",
 
+	// A prefix string to be prepended to all i18n keys used in i18n tokens.
+	// This is optional, and if present, clients will combine it with the
+	// keys of i18n tokens with a period (.) separating them.
+	// Type: String. Valid: Any valid i18n key.
+	"i18n_prefix": "some.key",
+
 	// If refresh is provided, the data is expected to change at refresh
 	// and clients should update themselves if this information is still
 	// relevent for the end user.
 	"refresh": ISODateTime,
+
+	// Providing a special value allows certain providers, in combination with
+	// aware clients, to have associated behaviors. As an example, FrankerFaceZ
+	// emotes can display special UI in the client for managing the emotes.
+	"special": null,
 
 	// A short embed, intended for use in space limited areas such as Twitch
 	// chat. The official client uses this for embeds within chat. Typically
@@ -29,6 +40,14 @@ The link service should return the following format.
 	// rich tokens.
 	// Type: Rich Token Document.
 	"short": TOKEN,
+
+	// A mid-length embed, which can be used by clients when there's more room
+	// than a short embed would fill, but not enough space for a full embed.
+	// The official client uses this for embeds within chat if the user has
+	// indicated a preference for larger embeds. Typically, this includes the
+	// header from the short embed, along with a bit more information such as
+	// several lines of a description.
+	"mid": TOKEN,
 
 	// A longer embed, for when more space is available. The official client
 	// uses this for rendering tooltips. This can include more text, multiple
@@ -47,9 +66,11 @@ The link service should return the following format.
 
 
 	// URL Safety
-	// Currently, our only data source for URL safety is Google SafeBrowsing.
-	// We would like to expand this service in the future, possibly with the
-	// help of a Twitch-centric project.
+	// Currently, URLs are checked for safety against Google SafeBrowsing.
+	// Additionally, domain names are checked against Cloudflare DNS's list of
+	// malicious domains.
+	//
+	// Safety checks can be added by creating additional SafetyCheck classes.
 
 	// Whether or not any of the URLs in the entire redirect chain have been
 	// flagged for safety concerns. If this is true, one of the present URLs
@@ -60,10 +81,10 @@ The link service should return the following format.
 
 	// The full redirect chain, with details on each specific URL.
 	"urls": [
-		{"url": "http://sketchy-redirect.example", "unsafe": true, "flags": ["MALWARE"]},
-		{"url": "http://example.org", "unsafe": false, "flags": []},
-		{"url": "https://example.org", "unsafe": false, "flags": []},
-		{"url": "https://www.example.org", "unsafe": false, "flags": []}
+		{"url": "http://sketchy-redirect.example", "resolver": "Metadata", "shortened": false, "unsafe": true, "flags": ["MALWARE"]},
+		{"url": "http://example.org", "resolver": "Metadata", "shortened": false, "unsafe": false, "flags": []},
+		{"url": "https://example.org", "resolver": "Metadata", "shortened": false, "unsafe": false, "flags": []},
+		{"url": "https://www.example.org", "resolver": "Metadata", "shortened": false, "unsafe": false, "flags": []}
 	]
 }
 ```

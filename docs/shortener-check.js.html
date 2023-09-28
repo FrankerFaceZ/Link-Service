@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>SafetyCheck - Documentation</title>
+    <title>shortener-check.js - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -32,490 +32,197 @@
 
 <div id="main">
     
-    <h1 class="page-title">SafetyCheck</h1>
-    
-
-    
-
-
-
-
-<section>
-
-<header>
-    
-        <h2>
-        SafetyCheck
-        </h2>
-        
-            <div class="class-description usertext"><p>SafetyCheck instances check URLs for potential safety issues.</p></div>
-        
-    
-</header>
-
-<article>
-    
-        <div class="container-overview">
-        
-            
-
-    
-    <h2>Constructor</h2>
-    
-
-    <h4 class="name" id="SafetyCheck"><span class="type-signature"></span>new SafetyCheck<span class="signature">(service)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="safetycheck.js.html">safetycheck.js</a>, <a href="safetycheck.js.html#line25">line 25</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>service</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="LinkService.html">LinkService</a></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>The service this SafetyCheck is
-registered to.</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-        </div>
-    
-
-    
-
-    
-
-    
-    
-    
-
-     
-
-    
-
-    
-
-    
-        <h3 class="subsection-title">Methods</h3>
-
-        
-            
-
-    
-
-    <h4 class="name" id="check"><span class="type-signature"></span>check<span class="signature">(urls)</span><span class="type-signature"> &rarr; {Promise|undefined}</span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="safetycheck.js.html">safetycheck.js</a>, <a href="safetycheck.js.html#line71">line 71</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description usertext">
-    <p>Check to see if the provided URLs should be considered safe or
-not. This method may return a Promise, but is not required to.</p>
-<p>Rather than returning a value, this method should modify the
-CheckedURLs by setting <code>unsafe</code> to true if necessary and by
-adding strings to flags.</p>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>urls</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object.&lt;string, <a href="global.html#CheckedURL">CheckedURL</a>></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>The URLs to check.</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    <p>If a Promise is returned, the
-LinkService will wait until the Promise resolves to consider
-the URLs checked.</p>
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Promise</span>
-|
-
-<span class="param-type">undefined</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id="getExamples"><span class="type-signature"></span>getExamples<span class="signature">()</span><span class="type-signature"> &rarr; {Array.&lt;<a href="global.html#ExampleURL">ExampleURL</a>>|Array.&lt;String>|Array.&lt;URL>}</span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="safetycheck.js.html">safetycheck.js</a>, <a href="safetycheck.js.html#line54">line 54</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description usertext">
-    <p>Get an array of example URLs that this SafetyCheck can handle.
-Used for populating a selection field in testing clients.</p>
-<p>The default implementation checks if the SafetyCheck class has
-a static array called <code>examples</code> and, if so, returns that.</p>
-<p>It is not necessary to provide examples, but examples do
-make testing easier.</p>
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>class MyCheck extends SafetyCheck { };
-MyCheck.examples = [
-    {title: 'Some Page', url: 'https://example.com/'}
-];</code></pre>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    <p>List of URLs.</p>
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Array.&lt;<a href="global.html#ExampleURL">ExampleURL</a>></span>
-|
-
-<span class="param-type">Array.&lt;String></span>
-|
-
-<span class="param-type">Array.&lt;URL></span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-        
-    
-
-    
-
-    
-</article>
-
-</section>
+    <h1 class="page-title">shortener-check.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
+
+/**
+ * ShortenerCheck instances check URLs to see if they match a known
+ * URL shortener.
+ */
+class ShortenerCheck {
+
+	constructor(service) {
+		this.service = service;
+
+		if ( this.fetch )
+			this.fetch = this.service.wrapFetch(this.fetch.bind(this));
+		else
+			this.fetch = this.service.fetch;
+	}
+
+	/**
+	 * Get an array of example URLs that this ShortenerCheck will report
+	 * as shortened. Used for populating a selection field in
+	 * testing clients.
+	 *
+	 * The default implementation checks if the ShortenerCheck class has
+	 * a static array called `examples` and, if so, returns that.
+	 *
+	 * It is not necessary to provide examples, but examples do
+	 * make testing easier.
+	 *
+	 * @example
+	 * class MyCheck extends ShortenerCheck { };
+	 * MyCheck.examples = [
+	 *     {title: 'Some Page', url: 'https://example.com/'}
+	 * ];
+	 *
+	 * @returns {ExampleURL[]|String[]|URL[]} List of URLs.
+	 */
+	getExamples() {
+		return this.constructor.examples ?? null;
+	}
+
+	/**
+	 * Check to see if the provided URLs should be considered shortened or
+	 * not. This method may return a Promise, but is not required to.
+	 *
+	 * Rather than returning a value, this method should modify the
+	 * CheckedURLs by setting `shortened` to true if necessary and by
+	 * adding strings to flags if relevant.
+	 *
+	 * @param {Object.&lt;string, CheckedURL>} urls The URLs to check.
+	 * @returns {Promise|undefined} If a Promise is returned, the
+	 * LinkService will wait until the Promise resolves to consider
+	 * the URLs checked.
+	 */
+	check(urls) {
+		throw new Error('Not Implemented');
+	}
+
+}
+
+
+/**
+ * SimpleShortenerCheck allows you to check single URLs at once
+ * using the checkSingle method, while handling iteration over
+ * each URL for you.
+ *
+ * @example
+ *
+ * const list = new Set();
+ *
+ * blacklist.add('bit.ly');
+ *
+ * class SomeShorteners extends SimpleSafetyCheck {
+ *     checkSingle(url) {
+ *         return blacklist.has(url.toString());
+ *     }
+ * }
+ *
+ */
+export class SimpleShortenerCheck extends ShortenerCheck {
+
+	/**
+	 * Check to see if the provided URL should be considered shortened
+	 * or not. Returns a truthy value if the URL is flagged as
+	 * shortened.
+	 *
+	 * If this returns a Promise, the Promise will be awaited.
+	 *
+	 * @param {URL} url The URL to be tested.
+	 * @returns {Promise&lt;Boolean|String>|Boolean|String} The
+	 * result of the safety check.
+	 */
+	checkSingle(url) {
+		throw new Error('Not Implemented');
+	}
+
+	_handle(data, result) {
+		if ( result )
+			data.shortened = true;
+	}
+
+	check(urls) {
+		if ( ! urls )
+			return null;
+
+		const promises = [];
+
+		for (const data of Object.values(urls)) {
+			const result = this.checkSingle(data.url);
+			if ( result instanceof Promise )
+				promises.push(result.then(r => this._handle(data, r)));
+			else
+				this._handle(data, result);
+		}
+
+		if ( promises.length )
+			return Promise.all(promises);
+	}
+}
+
+export class UrlShortenerList extends ShortenerCheck {
+
+	constructor(service) {
+		super(service);
+
+		this.refreshData();
+	}
+
+	refreshData() {
+		return new Promise(async (s,f) => {
+			if ( this._refresh_waiters )
+				return this._refresh_waiters.push([s,f]);
+
+			this._refresh_waiters = [[s,f]];
+
+			const data = await this.fetch('https://raw.githubusercontent.com/PeterDaveHello/url-shorteners/master/list')
+				.then(resp => resp.ok ? resp.text() : null)
+				.catch(() => null);
+
+			// If we got data, do something about it.
+			if ( data ) {
+				const lines = data
+					.split(/\s*\n\s*/)
+					.filter(line => line.length &amp;&amp; ! line.startsWith('#'))
+					.map(line => line.toLowerCase());
+
+				this.data = new Set(lines);
+				console.log('Loaded %d shortener domains.', this.data.size);
+			}
+
+			// Call all our waiters.
+			const waiters = this._refresh_waiters;
+			this._refresh_waiters = null;
+			for(const pair of waiters)
+				pair[0]();
+		});
+	}
+
+	check(urls) {
+		if ( ! urls )
+			return null;
+
+		if ( ! this.data?.size )
+			return this.refreshData().then(() => this.check(urls));
+
+		for(const data of Object.values(urls)) {
+			let url = data.url;
+			if (!(url instanceof URL))
+				url = new URL(url);
+
+			if ( this.data.has(url.hostname.toLowerCase()) )
+				data.shortened = true;
+		}
+	}
+
+}
+
+
+export default ShortenerCheck;
+</code></pre>
+        </article>
+    </section>
 
 
 
