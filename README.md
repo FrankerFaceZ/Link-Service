@@ -55,12 +55,20 @@ accept self-signed certificates for localhost. That may involve
 visiting [https://localhost:8002](https://localhost:8002) in your
 browser and making an exception for the certificate.
 
-Once you've done that, you can go to `Debugging > Data Sources` in
-the FrankerFaceZ client and change the `Link Resolver` to `localhost`
+Once you've done that, you can use either the FrankerFaceZ client
+itself or our documentation's [Testing Tool](https://docs.frankerfacez.com/dev/link-preview/tester)
 to start making requests to the local server.
+
+When using the FrankerFaceZ client, you'll need to open the control
+center to `Debugging > Data Sources` and change the `Link Resolver`
+to `Local Dev Server`.
+
+When using the documentation Testing Tool, just change the `Provider`
+to `Local Dev Server`.
 
 At that point, you just pick a URL for testing or enter a custom
 URL and you go to work implementing your custom resolver.
+
 
 ### Configuration
 
@@ -80,9 +88,11 @@ use this file to install API keys for local testing, if necessary.
 
 * [API Documentation](https://frankerfacez.github.io/Link-Service/)
 
+
 ## Tests
 
 Run tests using `pnpm test`.
+
 
 ## Contributions and Support
 
