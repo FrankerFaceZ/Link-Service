@@ -3,7 +3,6 @@
 // FFZ Link Service: Testing Shell
 // This script provides a REPL and HTTPS server for easy development.
 
-
 import fs from 'fs';
 import {createServer} from 'https';
 import path from 'path';
@@ -20,6 +19,7 @@ import Builder from './lib/builder';
 import {SimpleSafetyCheck} from './lib/safetycheck';
 import {PassThrough} from 'stream';
 import CookieJar from './lib/cookie-jar';
+import HSTSCache from './lib/hsts-cache';
 
 let og_fetch = fetch,
 	og_abort = AbortController;
@@ -48,6 +48,16 @@ if ( ! service_config.image_proxy.host )
 
 service_config.fetch = og_fetch;
 service_config.AbortController = og_abort;
+
+service_config.bluesky_api.loadSession = () => {
+	return fs.promises.readFile('./bsky-session.json')
+		.then(data => JSON.parse(data))
+		.catch(() => null);
+}
+
+service_config.bluesky_api.saveSession = data => {
+	return fs.promises.writeFile('./bsky-session.json', JSON.stringify(data, null, '\t'));
+}
 
 const service = new LinkService(service_config);
 
@@ -365,27 +375,73 @@ repl.defineCommand('fetch', {
 			return;
 		}
 
-		let cookies = new CookieJar;
+		let cookies = new CookieJar,
+			hsts = new HSTSCache;
 
 		let req;
-		try {
-			req = await service.fetch(url, {
-				headers: {
-					Referer: service.opts.default_referrer,
-					'User-Agent': service.opts.user_agent
-				},
-				size: 5000000,
-				timeout: service.opts.resolver_timeout
-			},  cookies);
-		} catch (err) {
-			this.clearBufferedCommand();
-			console.error('Error Requesting URL', err);
-			this.displayPrompt();
-			return;
+		const urls = [];
+
+		let referer = service.opts.default_referrer;
+
+		while(true) {
+			urls.push(url);
+			if ( urls.length > 20 ) {
+				console.error('Maximum redirect count exceeded. Stopping.');
+				break;
+			}
+
+			try {
+				req = await service.fetch(url, {
+					headers: {
+						Referer: referer,
+						'User-Agent': service.opts.user_agent
+					},
+					redirect: 'manual',
+					size: 5000000,
+					timeout: service.opts.resolver_timeout
+				},  cookies, hsts);
+			} catch (err) {
+				this.clearBufferedCommand();
+				console.error('Error Requesting URL', err);
+				this.displayPrompt();
+				return;
+			}
+
+			let redirect = null,
+				status = req.status;
+
+			if ( status >= 300 && status < 400 )
+				redirect = req.headers.get('Location');
+			else if ( req.headers.has('Refresh') ) {
+				const match = REFRESH_TARGET.exec(request.headers.get('Refresh')),
+					matched = match && (match[2] || match[3]);
+				if ( matched )
+					redirect = matched;
+			}
+
+			if ( redirect ) {
+				req.abort();
+
+				let target = hsts.upgrade(new URL(redirect, url));
+				const target_str = target.toString(),
+					req_str = url.toString();
+				if ( target_str === req_str && target_str === referer ) {
+					console.error('Infinite redirect loop detected. Breaking.');
+					break;
+				}
+
+				referer = req_str;
+				url = target;
+				continue;
+			}
+
+			break;
 		}
 
 		repl.context.$r = req;
 		repl.context.$c = cookies;
+		repl.context.$h = hsts;
+		repl.context.$u = urls;
 
 		const content_type = req.headers.get('content-type') || '';
 		let body;
@@ -405,7 +461,7 @@ repl.defineCommand('fetch', {
 
 		} catch (err) {
 			this.clearBufferedCommand();
-			console.info('Stored request as $r');
+			console.info('Stored request as $r. Stored URL chain as $u. Stored cookies as $c. Stored HSTS as $h.');
 			console.error('Error Parsing Body', err);
 			this.displayPrompt();
 			return;
@@ -413,7 +469,7 @@ repl.defineCommand('fetch', {
 
 		repl.context.$0 = body;
 		this.clearBufferedCommand();
-		console.info('Stored request as $r. Stored response as $0.');
+		console.info('Stored request as $r. Stored response as $0. Stored URL chain as $u. Stored cookies as $c. Stored HSTS as $h.');
 		this.displayPrompt();
 	}
 })

@@ -7,3 +7,4 @@ dist
 cdn_files
 server
 config.json
+bsky-session.json
