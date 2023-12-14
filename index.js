@@ -8,6 +8,7 @@ import {createServer} from 'https';
 import path from 'path';
 import util from 'util';
 import selfsigned from 'selfsigned';
+import crypto from 'node:crypto';
 
 import REPL from 'repl';
 import Koa from 'koa';
@@ -58,6 +59,32 @@ service_config.bluesky_api.loadSession = () => {
 service_config.bluesky_api.saveSession = data => {
 	return fs.promises.writeFile('./bsky-session.json', JSON.stringify(data, null, '\t'));
 }
+
+/*
+const PROXY_HOSTS = [
+	'api.steampowered.com',
+	'store.steampowered.com',
+	'www.dota2.com',
+	'steamcommunity.com'
+];
+
+service_config.http_proxy = {
+	url: 'http://localhost:6969/proxy',
+	method: 'POST',
+	shouldProxy(url) {
+		return PROXY_HOSTS.includes(url.hostname.toLowerCase())
+	},
+	async sign(url, body, opts) {
+		const key = await fs.promises.readFile('privkey.pem', 'utf8');
+
+		const sign = crypto.createSign('SHA256');
+		sign.write(body);
+		sign.end();
+
+		return sign.sign(key, 'base64');
+	}
+}*/
+
 
 const service = new LinkService(service_config);
 
