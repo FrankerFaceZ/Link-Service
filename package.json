@@ -1,6 +1,6 @@
 {
 	"name": "@ffz/link-service",
-	"version": "5.2.0",
+	"version": "5.3.0",
 	"description": "A service that visits links and returns well structured, consumable metadata for clients to use for building rich embeds and tool-tips.",
 	"author": "SirStendec <sir@stendec.me>",
 	"license": "MIT",
